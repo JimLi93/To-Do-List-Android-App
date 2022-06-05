@@ -22,11 +22,14 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
+import com.example.myapplication.ui.theme.Purple200
+import com.example.myapplication.ui.theme.Rose1
 
 
 @Composable
 fun Greeting(navController: NavHostController) {
-    Surface (modifier = Modifier.clickable(onClick = { navController.navigate("petpage")}) ){
+    Surface (modifier = Modifier.clickable(onClick = { navController.navigate(BottomBarScreen.TaskList.route)}) ,
+            color = Rose1){
         Column(
             modifier = Modifier.fillMaxSize(),
             horizontalAlignment = Alignment.CenterHorizontally,

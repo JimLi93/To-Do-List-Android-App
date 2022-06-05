@@ -17,7 +17,9 @@ fun AppNavHost(navController: NavHostController, modifier: Modifier = Modifier) 
         modifier = modifier
     ) {
         composable("greeting") { Greeting(navController) }
-        composable("petpage") { PetPage() }
+        composable(BottomBarScreen.Pet.route) { PetPage(navController)  }
+        composable(BottomBarScreen.TaskList.route) { TaskPage(navController)  }
+        composable(BottomBarScreen.StoryMap.route) { StoryMapPage(navController)  }
         /*
         composable(Overview.name) {
             OverviewBody(

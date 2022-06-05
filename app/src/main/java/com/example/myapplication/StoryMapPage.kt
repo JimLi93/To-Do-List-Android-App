@@ -1,10 +1,7 @@
 package com.example.myapplication
 
 
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.material.*
@@ -22,23 +19,25 @@ import com.example.myapplication.ui.theme.Rose2
 
 
 @Composable
-fun PetPage(navController: NavHostController) {
+fun StoryMapPage(navController: NavHostController) {
     Scaffold(
-        topBar = { TopHeader("PET") },
+        topBar = { TopHeader("STORY MAP") },
         bottomBar = { NavBar(navController) },
         backgroundColor = Rose1
+
     ) {
     }
 }
 
 
 
+private val iconSize = 60.dp
 
-@Preview(showBackground = true)
+@Preview
 @Composable
-fun PetPagePreview() {
+fun StoryMapPagePreview() {
     MyApplicationTheme {
         val navController = rememberNavController()
-        PetPage(navController)
+        StoryMapPage(navController)
     }
 }
