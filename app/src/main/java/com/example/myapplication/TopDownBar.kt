@@ -21,10 +21,12 @@ import androidx.compose.material.IconButton
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
+import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.filled.List
 
 
 @Composable
-fun TopHeader(string :String) {
+fun TopHeader(string :String, trophy: Boolean, backArrow: Boolean, index: Boolean) {
     Surface(color = Rose2){
         Row(
             modifier = Modifier
@@ -38,6 +40,12 @@ fun TopHeader(string :String) {
                     .align(Alignment.CenterVertically)
                     .size(iconSize)
             ) {
+                if(backArrow == true) {
+                    Icon(Icons.Filled.ArrowBack, contentDescription = null)
+                }
+                else if(index == true) {
+                    Icon(Icons.Filled.List, contentDescription = null)
+                }
                 //Icon(Icons.Filled.ArrowBack, contentDescription = null)
             }
             Text(
@@ -52,7 +60,9 @@ fun TopHeader(string :String) {
                     .align(Alignment.CenterVertically)
                     .size(iconSize)
             ) {
-                Icon(Icons.Filled.Sort, contentDescription = null)
+                if(trophy == true) {
+                    Icon(Icons.Filled.Sort, contentDescription = null)
+                }
             }
         }
     }

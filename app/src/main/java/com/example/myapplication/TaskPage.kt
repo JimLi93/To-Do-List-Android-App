@@ -8,6 +8,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.material.*
 import androidx.compose.material.ButtonDefaults.IconSize
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Sort
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -25,10 +26,10 @@ import com.example.myapplication.ui.theme.*
 @Composable
 fun TaskPage(navController: NavHostController) {
     Scaffold(
-        topBar = { TopHeader("TASK") },
+        topBar = { TopHeader("TASK", true, false, false) },
         bottomBar = { NavBar(navController) },
         backgroundColor = Rose3,
-
+        floatingActionButton = { AddTaskButton() }
     ) {
         innerPadding ->
         TaskPageBody(
@@ -80,7 +81,9 @@ fun TaskListBar(
     hour:Int,
     minute: Int,
     id: Int){
-    Surface(modifier = Modifier.fillMaxHeight().fillMaxWidth(),
+    Surface(modifier = Modifier
+        .fillMaxHeight()
+        .fillMaxWidth(),
         color = if(id == 0) Rose1 else Rose0
     ){
         Column(){
@@ -100,6 +103,14 @@ private fun addZero(num: Int): String {
         return ans
     }
     else return num.toString()
+}
+
+@Composable
+fun AddTaskButton(){
+    FloatingActionButton(onClick = { /*TODO*/ }, modifier = Modifier.padding(0.dp),
+    backgroundColor = Rose3) {
+        Icon(imageVector = Icons.Default.Add, null)
+    }
 }
 
 

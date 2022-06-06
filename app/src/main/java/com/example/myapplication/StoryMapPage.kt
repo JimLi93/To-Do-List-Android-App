@@ -21,7 +21,7 @@ import com.example.myapplication.ui.theme.Rose2
 @Composable
 fun StoryMapPage(navController: NavHostController) {
     Scaffold(
-        topBar = { TopHeader("STORY MAP") },
+        topBar = { TopHeader("STORY MAP", false, false, true) },
         bottomBar = { NavBar(navController) },
         backgroundColor = Rose1
 
