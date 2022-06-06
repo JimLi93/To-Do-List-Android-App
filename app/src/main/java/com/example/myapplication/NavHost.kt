@@ -13,9 +13,10 @@ import androidx.navigation.compose.rememberNavController
 fun AppNavHost(navController: NavHostController, modifier: Modifier = Modifier) {
     NavHost(
         navController = navController,
-        startDestination = "greeting",
+        startDestination = "1",
         modifier = modifier
     ) {
+        composable("1") { ReadStory(chapterIndex = 0) }
         composable("greeting") { Greeting(navController) }
         composable(BottomBarScreen.Pet.route) { PetPage(navController)  }
         composable(BottomBarScreen.TaskList.route) { TaskPage(navController)  }
