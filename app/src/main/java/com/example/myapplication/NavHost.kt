@@ -16,7 +16,7 @@ fun AppNavHost(navController: NavHostController, modifier: Modifier = Modifier) 
         startDestination = "1",
         modifier = modifier
     ) {
-        composable("1") { ReadStory(chapterIndex = 0) }
+        composable("1") { TaskDetailHistory(navController = navController, selectedTaskIndex = 0) }
         composable("greeting") { Greeting(navController) }
         composable(BottomBarScreen.Pet.route) { PetPage(navController)  }
         composable(BottomBarScreen.TaskList.route) { TaskPage(navController)  }

@@ -24,19 +24,18 @@ import com.example.myapplication.ui.theme.*
 
 
 @Composable
-fun TaskPage(navController: NavHostController) {
+fun HistoryPage(navController: NavHostController) {
     Scaffold(
-        topBar = { TopHeader("TASK", true, false, false) },
+        topBar = { TopHeader("HISTORY", false, true, false) },
         bottomBar = { NavBar(navController) },
-        backgroundColor = Rose3,
-        floatingActionButton = { AddTaskButton() }
+        backgroundColor = Rose3
     ) {
-        innerPadding ->
-        TaskPageBody(
-            data = UserData.tasks,
+            innerPadding ->
+        HistoryPageBody(
+            data = UserData.historytasks,
             modifier = Modifier.padding(innerPadding)
         ) { task ->
-            TaskListBar(
+            HistoryListBar(
                 modifier = Modifier.clickable { },
                 name = task.name,
                 year = task.year,
@@ -52,7 +51,7 @@ fun TaskPage(navController: NavHostController) {
 }
 
 @Composable
-fun <T> TaskPageBody(
+fun <T> HistoryPageBody(
     modifier: Modifier,
     data: List<T>,
     row: @Composable (T) -> Unit
@@ -72,7 +71,7 @@ fun <T> TaskPageBody(
 
 
 @Composable
-fun TaskListBar(
+fun HistoryListBar(
     modifier: Modifier,
     name: String,
     year: Int,
@@ -88,11 +87,11 @@ fun TaskListBar(
     ){
         Column(){
             Text(text = name, modifier = Modifier.padding(start = 12.dp, top = 8.dp, bottom = 4.dp)
-            ,style = MaterialTheme.typography.h4)
+                ,style = MaterialTheme.typography.h4)
             val deadline = "Deadline: "+addZero(year)+"/"+addZero(month)+"/"+
                     addZero(date)+"/"+addZero(hour)+"/"+addZero(minute)
             Text(text = deadline, modifier = Modifier.padding(start = 12.dp, bottom = 4.dp)
-            ,style = MaterialTheme.typography.subtitle2)
+                ,style = MaterialTheme.typography.subtitle2)
         }
     }
 }
@@ -105,22 +104,16 @@ private fun addZero(num: Int): String {
     else return num.toString()
 }
 
-@Composable
-fun AddTaskButton(){
-    FloatingActionButton(onClick = { /*TODO*/ }, modifier = Modifier.padding(0.dp),
-    backgroundColor = Rose3) {
-        Icon(imageVector = Icons.Default.Add, null)
-    }
-}
+
 
 
 
 @Preview
 @Composable
-fun TopHeaderPreview() {
+fun HistoryPreview() {
     MyApplicationTheme {
         val navController = rememberNavController()
-        TaskPage(navController)
+        HistoryPage(navController)
     }
 }
 
