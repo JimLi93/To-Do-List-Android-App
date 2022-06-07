@@ -26,7 +26,13 @@ import androidx.compose.material.icons.filled.List
 
 
 @Composable
-fun TopHeader(string :String, trophy: Boolean, backArrow: Boolean, index: Boolean) {
+fun TopHeader(string :String = "ERROR",
+              trophy: Boolean = false,
+              backArrow: Boolean = false,
+              index: Boolean = false,
+              navController: NavHostController,
+              backArrowDestination: String = "greeting",
+              trophyDestination: String = "greeting") {
     Surface(color = Rose2){
         Row(
             modifier = Modifier
@@ -35,7 +41,8 @@ fun TopHeader(string :String, trophy: Boolean, backArrow: Boolean, index: Boolea
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
             IconButton(
-                onClick = {},
+                enabled = backArrow,
+                onClick = { navController.navigate(backArrowDestination) },
                 modifier = Modifier
                     .align(Alignment.CenterVertically)
                     .size(iconSize)
@@ -55,7 +62,8 @@ fun TopHeader(string :String, trophy: Boolean, backArrow: Boolean, index: Boolea
                 fontWeight = FontWeight.ExtraBold
             )
             IconButton(
-                onClick = { },
+                enabled = trophy,
+                onClick = { navController.navigate(trophyDestination) },
                 modifier = Modifier
                     .align(Alignment.CenterVertically)
                     .size(iconSize)

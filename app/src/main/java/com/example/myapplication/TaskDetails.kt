@@ -12,9 +12,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.RectangleShape
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
+import androidx.navigation.compose.rememberNavController
 import com.example.myapplication.data.UserData
+import com.example.myapplication.ui.theme.MyApplicationTheme
 import com.example.myapplication.ui.theme.Rose1
 import com.example.myapplication.ui.theme.Rose2
 import com.example.myapplication.ui.theme.Rose3
@@ -22,7 +25,14 @@ import com.example.myapplication.ui.theme.Rose3
 @Composable
 fun TaskDetail(navController: NavHostController, selectedTaskIndex: Int) {
     Scaffold(
-        topBar = { TopHeader("DETAILS", false, true, false) },
+        topBar = { TopHeader(
+            string = "DETAILS",
+            trophy = false,
+            backArrow = true,
+            index = false,
+            navController = navController,
+            backArrowDestination = "taskpage")
+        },
         backgroundColor = Rose1
     ) {
             innerPadding ->
@@ -61,17 +71,21 @@ fun TaskDetail(navController: NavHostController, selectedTaskIndex: Int) {
             Text(modifier = Modifier.padding(start = 60.dp, end = 60.dp).fillMaxWidth()
                 , text = details, style = MaterialTheme.typography.h5)
             Spacer(Modifier.height(DefaultPadding*10))
+            /* TODO: store the task detail change after pressing complete */
+            /* TODO: hold the task detail after pressing delete */
             Row(modifier = Modifier.fillMaxWidth(),
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.SpaceAround) {
                 Card(shape = RectangleShape, backgroundColor = Rose2,
                     modifier = Modifier
-                        .clickable { /*TODO*/ }) {
+                        .clickable(onClick = {navController.navigate("taskpage")})
+                ) {
                     Text(text = "Complete")
                 }
                 Card(shape = RectangleShape, backgroundColor = Rose2,
                     modifier = Modifier
-                        .clickable { /*TODO*/ }) {
+                        .clickable(onClick = {navController.navigate("taskpage")})
+                ) {
                     Text(text = "Delete")
                 }
             }
@@ -92,3 +106,12 @@ private fun addZero(num: Int): String {
 
 private val iconSize = 60.dp
 private val DefaultPadding = 20.dp
+
+@Preview
+@Composable
+private fun TaskDetailPreview() {
+    MyApplicationTheme {
+        val navController = rememberNavController()
+        TaskDetail(navController, 1)
+    }
+}

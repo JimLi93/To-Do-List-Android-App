@@ -26,7 +26,14 @@ import com.example.myapplication.ui.theme.*
 @Composable
 fun HistoryPage(navController: NavHostController) {
     Scaffold(
-        topBar = { TopHeader("HISTORY", false, true, false) },
+        topBar = { TopHeader(
+            string = "HISTORY",
+            trophy = false,
+            backArrow = true,
+            index = false,
+            navController = navController,
+            backArrowDestination = "taskpage")
+        },
         bottomBar = { NavBar(navController) },
         backgroundColor = Rose3
     ) {
@@ -36,7 +43,9 @@ fun HistoryPage(navController: NavHostController) {
             modifier = Modifier.padding(innerPadding)
         ) { task ->
             HistoryListBar(
-                modifier = Modifier.clickable { },
+                modifier = Modifier.clickable(
+                    onClick = { navController.navigate("taskdetailhistory") }
+                ),
                 name = task.name,
                 year = task.year,
                 month = task.month,
@@ -85,7 +94,7 @@ fun HistoryListBar(
         .fillMaxWidth(),
         color = if(( id % 2 ) == 0) Rose1 else Rose0
     ){
-        Column(){
+        Column(modifier = modifier){
             Text(text = name, modifier = Modifier.padding(start = 12.dp, top = 8.dp, bottom = 4.dp)
                 ,style = MaterialTheme.typography.h4)
             val deadline = "Deadline: "+addZero(year)+"/"+addZero(month)+"/"+
