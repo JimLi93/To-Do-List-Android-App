@@ -63,5 +63,4 @@ class PetPageTest {
             BottomBarScreen.StoryMap.route
         )
     }
-    // test backstack
 }
