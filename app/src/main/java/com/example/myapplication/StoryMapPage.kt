@@ -4,10 +4,11 @@ package com.example.myapplication
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Lock
-import androidx.compose.runtime.Composable
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
@@ -18,9 +19,7 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.example.myapplication.data.SolidUserData
-import com.example.myapplication.ui.theme.MyApplicationTheme
-import com.example.myapplication.ui.theme.Rose0
-import com.example.myapplication.ui.theme.Rose1
+import com.example.myapplication.ui.theme.*
 
 
 @Composable
@@ -105,9 +104,15 @@ fun StoryButton(
     navController: NavHostController
 ) {
     val chapterstring = chapter.toString() + "-" + subchapter.toString()
+    var showAlertDialog by remember { mutableStateOf(false) }
     Surface(
         modifier = Modifier
-            .clickable(onClick = { navController.navigate("readstory/${chapter}") })
+            .clickable(
+                onClick = {
+                    if(valid) navController.navigate("readstory/${chapter}")
+                    else showAlertDialog = true
+                }
+            )
             .size(100.dp),
         border = BorderStroke(2.dp, Color.Black),
         shape = CircleShape, color = Rose0
@@ -153,6 +158,23 @@ fun StoryButton(
             }
         }
 
+    }
+    if(showAlertDialog){
+        AlertDialog(
+            onDismissRequest = { showAlertDialog = false },
+            title = { Text("Oops!")},
+            text = {Text("Chapter "+chapter.toString()+"-"+subchapter.toString()+" is unlocked. Please finish deadline to unlock the chapter")},
+            confirmButton = {
+                Button(onClick = {showAlertDialog = false},
+                    colors = ButtonDefaults.buttonColors(backgroundColor = Yellow1)) {
+                    Text(text = "OK")
+                }
+            },
+
+            backgroundColor = Yellow2,
+            contentColor = Color.Black,
+            shape = RoundedCornerShape(8.dp)
+        )
     }
 }
 
