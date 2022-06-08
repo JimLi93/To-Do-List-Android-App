@@ -54,7 +54,7 @@ fun TaskDetail(navController: NavHostController, selectedTaskIndex: Int) {
                 }
                 Text(text = data.name, style = MaterialTheme.typography.h4)
                 IconButton(
-                    onClick = { /*TODO*/},
+                    onClick = { /*TODO: enable editing task detail*/},
                     modifier = Modifier
                         .align(Alignment.CenterVertically)
                         .size(iconSize)

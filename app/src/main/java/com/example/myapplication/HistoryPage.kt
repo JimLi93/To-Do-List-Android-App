@@ -44,7 +44,7 @@ fun HistoryPage(navController: NavHostController) {
         ) { task ->
             HistoryListBar(
                 modifier = Modifier.clickable(
-                    onClick = { navController.navigate("taskdetailhistory") }
+                    onClick = { navController.navigate("taskdetailhistory/${task.id}") }
                 ),
                 name = task.name,
                 year = task.year,

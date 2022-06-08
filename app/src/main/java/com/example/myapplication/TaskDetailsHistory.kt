@@ -55,7 +55,7 @@ fun TaskDetailHistory(navController: NavHostController, selectedTaskIndex: Int) 
                 }
                 Text(text = data.name, style = MaterialTheme.typography.h4)
                 IconButton(
-                    onClick = { /*TODO*/},
+                    onClick = { /*TODO: enable editing task detail*/},
                     modifier = Modifier
                         .align(Alignment.CenterVertically)
                         .size(iconSize)
@@ -84,7 +84,7 @@ fun TaskDetailHistory(navController: NavHostController, selectedTaskIndex: Int) 
                 }
                 Card(shape = RectangleShape, backgroundColor = Rose2,
                     modifier = Modifier
-                        .clickable { /*TODO*/ }) {
+                        .clickable { /*TODO: deleter the page before go back*/ }) {
                     Text(text = "Delete")
                 }
             }

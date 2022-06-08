@@ -2,9 +2,12 @@ package com.example.myapplication
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.navigation.NavArgument
 import androidx.navigation.NavHostController
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import androidx.navigation.navArgument
 
 @Composable
 fun AppNavHost(navController: NavHostController, modifier: Modifier = Modifier) {
@@ -19,14 +22,46 @@ fun AppNavHost(navController: NavHostController, modifier: Modifier = Modifier) 
         composable(BottomBarScreen.TaskList.route) { TaskPage(navController = navController) }
         composable(BottomBarScreen.StoryMap.route) { StoryMapPage(navController = navController) }
         composable("historypage") { HistoryPage(navController = navController) }
-        /*TODO: get the selectedTaskIndex from caller*/
-        composable("taskdetail") { TaskDetail(navController = navController, 1) }
+        composable(
+            route = "taskdetail/{taskindex}",
+            arguments = listOf(
+                navArgument("taskindex") {
+                    type = NavType.IntType
+                }
+            )
+        ) { backStackEntry ->
+            TaskDetail(
+                navController = navController,
+                selectedTaskIndex = backStackEntry.arguments!!.getInt("taskindex")
+            )
+        }
         composable("taskpage") { TaskPage(navController = navController)}
-        composable("readstory") { ReadStory(chapterIndex = 1, navController = navController)}
+        composable(
+            route = "readstory/{chapterindex}",
+            arguments = listOf(
+                navArgument("chapterindex") {
+                    type = NavType.IntType
+                }
+            )
+        ) { backStackEntry ->
+            ReadStory(
+                navController = navController,
+                chapterIndex = backStackEntry.arguments!!.getInt("chapterindex")
+            )
+        }
         composable("storymappage") { StoryMapPage(navController = navController)}
-        composable("taskdetailhistory") { TaskDetailHistory(
-            navController = navController,
-            selectedTaskIndex = 1
-        )}
+        composable(
+            route = "taskdetailhistory/{taskindex}",
+            arguments = listOf(
+                navArgument("taskindex") {
+                    type = NavType.IntType
+                }
+            )
+        ) { backStackEntry ->
+            TaskDetailHistory(
+                navController = navController,
+                selectedTaskIndex = backStackEntry.arguments!!.getInt("taskindex")
+            )
+        }
     }
 }

@@ -71,15 +71,14 @@ fun StoryButton(
     valid: Boolean,
     navController: NavHostController
 ) {
+    val chapterstring = chapter.toString() + "-" + subchapter.toString()
     Surface(
-        /* TODO: set the parameter (chater index) */
         modifier = Modifier
-            .clickable(onClick = {navController.navigate("readstory")})
+            .clickable(onClick = {navController.navigate("readstory/${chapter}")})
             .size(100.dp),
         border = BorderStroke(2.dp, Color.Black),
         shape = CircleShape, color = Rose0
     ) {
-        val chapterstring = chapter.toString() + "-" + subchapter.toString()
         if (valid == true) {
             //Icon(imageVector = Icons.Default.Lock, null)
             Row(

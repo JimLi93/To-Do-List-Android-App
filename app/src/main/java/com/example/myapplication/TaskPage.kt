@@ -18,6 +18,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
 import com.example.myapplication.data.Task
 import com.example.myapplication.data.UserData
 import com.example.myapplication.ui.theme.*
@@ -44,9 +45,8 @@ fun TaskPage(navController: NavHostController) {
             modifier = Modifier.padding(innerPadding),
         ) { task ->
             TaskListBar(
-                /* TODO: set the task number as parameter */
                 modifier = Modifier.clickable(
-                    onClick = { navController.navigate("taskdetail") }
+                    onClick = { navController.navigate(route = "taskdetail/${task.id}") }
                 ),
                 name = task.name,
                 year = task.year,

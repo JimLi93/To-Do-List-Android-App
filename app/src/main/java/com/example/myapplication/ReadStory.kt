@@ -107,6 +107,6 @@ fun ReadingBar(
 private fun ReadStoryPreview() {
     MyApplicationTheme {
         val navController = rememberNavController()
-        ReadStory(chapterIndex = 0, navController = navController)
+        ReadStory(chapterIndex = 5, navController = navController)
     }
 }
