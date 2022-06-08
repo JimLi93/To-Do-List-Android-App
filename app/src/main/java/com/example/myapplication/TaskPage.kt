@@ -67,7 +67,7 @@ fun <T> TaskPageBody(
     data: List<T>,
     row: @Composable (T) -> Unit
 ){
-    Box(modifier = Modifier) {
+    Box(modifier = modifier) {
         Column(
             modifier = Modifier
                 .padding(0.dp)
