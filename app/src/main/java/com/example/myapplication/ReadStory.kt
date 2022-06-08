@@ -1,5 +1,6 @@
 package com.example.myapplication
 
+import android.widget.Space
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
@@ -10,6 +11,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
@@ -40,9 +42,8 @@ fun ReadStory(
         Column(
             modifier = Modifier
                 .padding(innerPadding)
-                .fillMaxSize()
-                .verticalScroll(rememberScrollState()),
-            horizontalAlignment = Alignment.CenterHorizontally
+                .fillMaxWidth()
+                .verticalScroll(rememberScrollState())
         ) {
             story.forEach { it ->
                 ReadingBar(
@@ -52,7 +53,7 @@ fun ReadStory(
                     it.content
                 )
             }
-            Text(text = "- To be continued -")
+            Text(text = "- To be continued -", modifier = Modifier.padding(30.dp))
         }
     }
 }
@@ -66,27 +67,39 @@ fun ReadingBar(
     content: String
 ) {
     if (id == 0) {
-        Row(modifier = Modifier.fillMaxHeight(), verticalAlignment = Alignment.CenterVertically) {
-            Text(text = content)
+        Row(verticalAlignment = Alignment.CenterVertically) {
+            Text(text = content, modifier = Modifier.padding(textPadding + 4.dp))
         }
     } else if (id == 1) {
-        Row(modifier = Modifier.fillMaxHeight(), verticalAlignment = Alignment.CenterVertically) {
+        Row(modifier = Modifier.fillMaxWidth()) {
+            Spacer(modifier = Modifier.width(spacerdp))
             Column(
                 modifier = Modifier.fillMaxHeight(),
-                horizontalAlignment = Alignment.CenterHorizontally
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.SpaceEvenly
             ) {
                 Image(
                     painter = painterResource(image),
                     contentDescription = null,
-                    modifier = Modifier.size(60.dp)
+                    modifier = Modifier.height(characterHeight)
                 )
                 Text(text = character)
             }
-            Text(text = content)
+            Text(
+                text = content, modifier = Modifier
+                    .padding(start = textPadding, end = textPadding, top = textPadding / 3)
+                    .fillMaxWidth()
+                    .height(characterHeight),
+                textAlign = TextAlign.Justify
+            )
         }
     } else {
-        Row(modifier = Modifier.fillMaxHeight(), verticalAlignment = Alignment.CenterVertically) {
-            Text(text = content)
+        Row(modifier = Modifier.fillMaxWidth()) {
+            Spacer(modifier = Modifier.width(spacerdp))
+            Text(text = content, modifier = Modifier
+                .padding(start = textPadding, end = textPadding, top = textPadding / 3)
+                .width(300.dp),
+                textAlign = TextAlign.Right)
             Column(
                 modifier = Modifier.fillMaxHeight(),
                 horizontalAlignment = Alignment.CenterHorizontally
@@ -94,7 +107,7 @@ fun ReadingBar(
                 Image(
                     painter = painterResource(image),
                     contentDescription = null,
-                    modifier = Modifier.size(60.dp)
+                    modifier = Modifier.height(characterHeight)
                 )
                 Text(text = character)
             }
@@ -110,3 +123,7 @@ private fun ReadStoryPreview() {
         ReadStory(chapterIndex = 0, navController = navController)
     }
 }
+
+private val textPadding = 12.dp
+private val spacerdp = 12.dp
+private val characterHeight = 80.dp

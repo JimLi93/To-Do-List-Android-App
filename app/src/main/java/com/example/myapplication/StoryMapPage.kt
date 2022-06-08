@@ -1,8 +1,7 @@
 package com.example.myapplication
 
 
-import androidx.compose.foundation.BorderStroke
-import androidx.compose.foundation.clickable
+import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.*
@@ -11,6 +10,7 @@ import androidx.compose.material.icons.filled.Lock
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
@@ -41,26 +41,59 @@ fun StoryMapPage(navController: NavHostController) {
             modifier = Modifier
                 .padding(innerPadding)
                 .fillMaxSize()
+                .verticalScroll(rememberScrollState())
         ) {
             val currentChapter = 1
             val startIndex = currentChapter * 5 - 5
             val endIndex = currentChapter * 5 - 1
             val data = SolidUserData.stories
-            Column(
-                modifier = Modifier.fillMaxSize(),
-                horizontalAlignment = Alignment.CenterHorizontally,
-                verticalArrangement = Arrangement.SpaceAround
-            ) {
-                for (i in startIndex..endIndex) {
-                    StoryButton(
-                        chapter = data[i].chapter,
-                        subchapter = data[i].subchapter,
-                        valid = data[i].valid,
-                        navController = navController
-                    )
-                }
+            for (i in startIndex..endIndex) {
+                Spacing2(
+                    chapter = data[i].chapter,
+                    subchapter = data[i].subchapter,
+                    valid = data[i].valid,
+                    navController = navController
+                )
             }
+            Canvas(modifier = Modifier.fillMaxSize()) {
+                val canvasWidth = size.width
+                val canvasHeight = size.height
+
+                drawLine(
+                    start = Offset(x = lineleftdp[0], y = lineupdp[0]),
+                    end = Offset(x = lineleftdp[1], y = lineupdp[1]),
+                    color = Color.Black,
+                    strokeWidth = 10F
+                )
+            }
+
         }
+    }
+}
+
+@Composable
+fun Spacing2(
+    chapter: Int,
+    subchapter: Int,
+    valid: Boolean,
+    navController: NavHostController){
+    Column(){
+        val hh = updp[subchapter - 1]
+        Spacer(modifier = Modifier.height(hh.dp))
+        Spacing(chapter, subchapter, valid, navController)
+    }
+}
+
+@Composable
+fun Spacing(
+    chapter: Int,
+    subchapter: Int,
+    valid: Boolean,
+    navController: NavHostController){
+    Row(){
+        val hh = leftdp[subchapter - 1]
+        Spacer(modifier = Modifier.width(hh.dp))
+        StoryButton(chapter, subchapter, valid, navController)
     }
 }
 
@@ -72,9 +105,9 @@ fun StoryButton(
     navController: NavHostController
 ) {
     Surface(
-        /* TODO: set the parameter (chater index) */
+        /* TODO: set the parameter (chapter index) */
         modifier = Modifier
-            .clickable(onClick = {navController.navigate("readstory")})
+            .clickable(onClick = { navController.navigate("readstory") })
             .size(100.dp),
         border = BorderStroke(2.dp, Color.Black),
         shape = CircleShape, color = Rose0
@@ -133,3 +166,10 @@ fun StoryMapPagePreview() {
         StoryMapPage(navController)
     }
 }
+
+private val leftdp: List<Int> = listOf(70, 290, 20 , 170 ,270)
+private val updp: List<Int> = listOf(30, 100, 220 , 300 ,480)
+
+private val lineleftdp: List<Float> = listOf(580f, 1020f, 20f , 170f ,270f)
+private val lineupdp: List<Float> = listOf(350f, 500f, 220f , 300f ,480f)
+private val gg = 5
