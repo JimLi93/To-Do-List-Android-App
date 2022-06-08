@@ -27,25 +27,32 @@ class GreetingPageTest {
     @get:Rule
     val composeTestRule = createComposeRule()
     lateinit var navController: NavHostController
-    @Before
-    fun setupGreetingPage() {
-        composeTestRule.setContent {
-            navController = rememberNavController()
-            AppNavHost(navController)
-            navController.navigate("greeting")
-        }
-    }
+
     @Test
     fun greetingPageDisplayTest() {
+        composeTestRule.setContent {
+            navController = rememberNavController()
+            Greeting(navController)
+        }
         composeTestRule.onNodeWithText("23:59").assertIsDisplayed()
         // TODO("Test the existence of the pet")
         composeTestRule.onNodeWithText("Welcome").assertIsDisplayed()
         composeTestRule.onNodeWithText("back").assertIsDisplayed()
         composeTestRule.onNodeWithText("-Tap to Continue-").assertIsDisplayed()
     }
+
     @Test
     fun clickGreetingPageTest() {
+        composeTestRule.setContent {
+            navController = rememberNavController()
+            AppNavHost(navController)
+            navController.navigate("greeting")
+        }
         composeTestRule.onNode(hasClickAction(), true).performClick()
-        composeTestRule.onNodeWithText("TASK").assertIsDisplayed()
+        // assert that the current page is the task page
+        assertEquals(
+            navController.currentBackStackEntry?.destination?.route,
+            BottomBarScreen.TaskList.route
+        )
     }
 }

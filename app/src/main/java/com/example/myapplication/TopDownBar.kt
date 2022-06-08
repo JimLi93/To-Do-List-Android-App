@@ -47,13 +47,12 @@ fun TopHeader(string :String = "ERROR",
                     .align(Alignment.CenterVertically)
                     .size(iconSize)
             ) {
-                if(backArrow == true) {
+                if(backArrow) {
                     Icon(Icons.Filled.ArrowBack, contentDescription = null)
                 }
-                else if(index == true) {
+                else if(index) {
                     Icon(Icons.Filled.List, contentDescription = null)
                 }
-                //Icon(Icons.Filled.ArrowBack, contentDescription = null)
             }
             Text(
                 text = string,
@@ -68,7 +67,7 @@ fun TopHeader(string :String = "ERROR",
                     .align(Alignment.CenterVertically)
                     .size(iconSize)
             ) {
-                if(trophy == true) {
+                if(trophy) {
                     Icon(Icons.Filled.Sort, contentDescription = null)
                 }
             }

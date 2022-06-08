@@ -43,7 +43,8 @@ fun PetPage(navController: NavHostController) {
             modifier = Modifier.padding(0.dp)
         ) {
             Image(
-                painter = painterResource(R.drawable.petbackground), contentDescription = null,
+                painter = painterResource(R.drawable.petbackground),
+                contentDescription = "Pet page background",
                 modifier = Modifier
                     .fillMaxWidth()
                     .fillMaxHeight(), contentScale = ContentScale.FillHeight,
@@ -87,19 +88,19 @@ fun ReactButton() {
             onClick = { /*TODO*/ }, modifier = Modifier.padding(reactButtonDp),
             backgroundColor = Rose0, shape = CircleShape
         ) {
-            Icon(imageVector = Icons.Default.CleaningServices, null)
+            Icon(imageVector = Icons.Default.CleaningServices, "Brush")
         }
         FloatingActionButton(
             onClick = { /*TODO*/ }, modifier = Modifier.padding(reactButtonDp),
             backgroundColor = Rose0, shape = CircleShape
         ) {
-            Icon(imageVector = Icons.Default.Shower, null)
+            Icon(imageVector = Icons.Default.Shower, "Shower")
         }
         FloatingActionButton(
             onClick = { /*TODO*/ }, modifier = Modifier.padding(reactButtonDp),
             backgroundColor = Rose0, shape = CircleShape
         ) {
-            Icon(imageVector = Icons.Default.EmojiFoodBeverage, null)
+            Icon(imageVector = Icons.Default.EmojiFoodBeverage, "Feed")
         }
     }
 
@@ -109,7 +110,7 @@ fun ReactButton() {
 private fun CatImage(count: Int) {
     val image = SolidUserData.pets[count].image
     Image(
-        painter = painterResource(image), contentDescription = null,
+        painter = painterResource(image), contentDescription = "Pet image in pet page",
         modifier = Modifier.size(300.dp)
     )
 }
@@ -139,7 +140,7 @@ fun SwitchPetBar(
         }
         Text(text = name, style = MaterialTheme.typography.h4, fontWeight = FontWeight.ExtraBold)
         IconButton(onClick = { /*TODO: Jump to pet detail*/ }) {
-            Icon(imageVector = Icons.Filled.FolderOpen, null)
+            Icon(imageVector = Icons.Filled.FolderOpen, "Pet details icon")
         }
         if (count == amount - 1) {
             IconButton(onClick = {}) {
