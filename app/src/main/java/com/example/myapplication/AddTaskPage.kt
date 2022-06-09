@@ -31,7 +31,7 @@ fun AddTask(navController: NavHostController) {
                 backArrow = true,
                 index = false,
                 navController = navController,
-                backArrowDestination = "taskpage",
+                backArrowDestination = BottomBarScreen.TaskList.route,
             )
         },
         backgroundColor = Rose1
@@ -51,7 +51,7 @@ fun AddTask(navController: NavHostController) {
             Card(shape = RectangleShape, backgroundColor = Rose2,
                 /* TODO: store the task before back to "addtask" */
                 modifier = Modifier
-                    .clickable(onClick = {navController.navigate("taskpage")})
+                    .clickable(onClick = {navController.navigate(BottomBarScreen.TaskList.route)})
             ) {
                 Text(text = "Add")
             }

@@ -105,11 +105,12 @@ fun StoryButton(
 ) {
     val chapterstring = chapter.toString() + "-" + subchapter.toString()
     var showAlertDialog by remember { mutableStateOf(false) }
+    val chapterIndex =chapter * 5 + subchapter - 6
     Surface(
         modifier = Modifier
             .clickable(
                 onClick = {
-                    if(valid) navController.navigate("readstory/${chapter}")
+                    if(valid) navController.navigate("readstory/${chapterIndex}")
                     else showAlertDialog = true
                 }
             )
