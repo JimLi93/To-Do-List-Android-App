@@ -64,6 +64,7 @@ fun StoryMapPage(navController: NavHostController) {
                     color = Color.Black,
                     strokeWidth = 10F
                 )
+
             }
 
         }
@@ -118,7 +119,7 @@ fun StoryButton(
         border = BorderStroke(2.dp, Color.Black),
         shape = CircleShape, color = Rose0
     ) {
-        if (valid == true) {
+        if (valid) {
             //Icon(imageVector = Icons.Default.Lock, null)
             Row(
                 modifier = Modifier.fillMaxSize(),
@@ -194,4 +195,3 @@ private val updp: List<Int> = listOf(30, 100, 220 , 300 ,480)
 
 private val lineleftdp: List<Float> = listOf(580f, 1020f, 20f , 170f ,270f)
 private val lineupdp: List<Float> = listOf(350f, 500f, 220f , 300f ,480f)
-private val gg = 5

@@ -100,7 +100,7 @@ fun TaskListBar(
             Text(text = name, modifier = Modifier.padding(start = 12.dp, top = 8.dp, bottom = 4.dp)
             ,style = MaterialTheme.typography.h4)
             val deadline = "Deadline: "+addZero(year)+"/"+addZero(month)+"/"+
-                    addZero(date)+"/"+addZero(hour)+"/"+addZero(minute)
+                    addZero(date)+"/"+addZero(hour)+":"+addZero(minute)
             Text(text = deadline, modifier = Modifier.padding(start = 12.dp, bottom = 4.dp)
             ,style = MaterialTheme.typography.subtitle2)
         }
