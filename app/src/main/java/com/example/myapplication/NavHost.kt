@@ -63,5 +63,18 @@ fun AppNavHost(navController: NavHostController, modifier: Modifier = Modifier) 
                 selectedTaskIndex = backStackEntry.arguments!!.getInt("taskindex")
             )
         }
+        composable(
+            route = "edittask/{taskindex}",
+            arguments = listOf(
+                navArgument("taskindex") {
+                    type = NavType.IntType
+                }
+            )
+        ) { backStackEntry ->
+            EditTask(
+                navController = navController,
+                selectedTaskIndex = backStackEntry.arguments!!.getInt("taskindex")
+            )
+        }
     }
 }

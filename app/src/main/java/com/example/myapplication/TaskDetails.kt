@@ -50,7 +50,7 @@ fun TaskDetail(navController: NavHostController, selectedTaskIndex: Int) {
             val details = "Details:\n" +data.details
 
             Spacer(Modifier.height(DefaultPadding))
-            TaskBar(navController, taskName)
+            TaskBar(navController, taskName, selectedTaskIndex)
             Text(text = deadline, modifier = Modifier.padding(top = 24.dp)
                 ,style = MaterialTheme.typography.subtitle1)
             Text(modifier = Modifier
@@ -71,7 +71,8 @@ fun TaskDetail(navController: NavHostController, selectedTaskIndex: Int) {
 @Composable
 private fun TaskBar(
     navController: NavHostController,
-    taskName: String
+    taskName: String,
+    selectedTaskIndex: Int
 ){
     Row(modifier = Modifier.fillMaxWidth(),
 
@@ -86,7 +87,7 @@ private fun TaskBar(
         }
         Text(text = taskName, fontSize = 45.sp, style = MaterialTheme.typography.h4,fontWeight = FontWeight.Bold)
         IconButton(
-            onClick = { /*TODO: enable editing task detail*/},
+            onClick = { navController.navigate("edittask/${selectedTaskIndex}") },
             modifier = Modifier
                 .align(Alignment.CenterVertically)
                 .size(iconSize)
