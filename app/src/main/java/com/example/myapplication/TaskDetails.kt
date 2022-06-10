@@ -20,11 +20,13 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
+import com.example.myapplication.components.CardButton
 import com.example.myapplication.data.UserData
 import com.example.myapplication.ui.theme.MyApplicationTheme
 import com.example.myapplication.ui.theme.Rose1
 import com.example.myapplication.ui.theme.Rose2
 import com.example.myapplication.ui.theme.Rose3
+import com.example.myapplication.components.addZero
 
 @Composable
 fun TaskDetail(navController: NavHostController, selectedTaskIndex: Int) {
@@ -50,7 +52,7 @@ fun TaskDetail(navController: NavHostController, selectedTaskIndex: Int) {
             val details = "Details:\n" +data.details
 
             Spacer(Modifier.height(DefaultPadding))
-            TaskBar(navController, taskName, selectedTaskIndex)
+            TaskBarWithEdit(navController, taskName, selectedTaskIndex)
             Text(text = deadline, modifier = Modifier.padding(top = 24.dp)
                 ,style = MaterialTheme.typography.subtitle1)
             Text(modifier = Modifier
@@ -69,7 +71,7 @@ fun TaskDetail(navController: NavHostController, selectedTaskIndex: Int) {
 }
 
 @Composable
-private fun TaskBar(
+private fun TaskBarWithEdit(
     navController: NavHostController,
     taskName: String,
     selectedTaskIndex: Int
@@ -98,52 +100,27 @@ private fun TaskBar(
 }
 
 @Composable
-private fun CompleteDelete(navController: NavHostController){
-    /* TODO: store the task detail change after pressing complete */
+fun CompleteDelete(navController: NavHostController){
     /* TODO: hold the task detail after pressing delete */
     Row(modifier = Modifier.fillMaxWidth(),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.SpaceEvenly) {
-        Card(shape = RoundedCornerShape(20.dp), backgroundColor = Rose2,
-            modifier = Modifier
-                .size(width = cardWidth, height = cardHeight)
-                .clickable(onClick = { navController.navigate(BottomBarScreen.TaskList.route) })
-        ) {
-            CardContext(string = "Complete")
-        }
-        Card(shape = RoundedCornerShape(20.dp), backgroundColor = Rose2,
-            modifier = Modifier
-                .size(width = cardWidth, height = cardHeight)
-                .clickable(onClick = { navController.navigate(BottomBarScreen.TaskList.route) })
-        ) {
-            CardContext(string = "Delete")
-        }
+        /* TODO: store the task detail change after pressing complete */
+        CardButton(navController, string = "Complete", cardWidth = 120, cardHeight = 40,
+            { navController.navigate(BottomBarScreen.TaskList.route) })
+
+        CardButton(navController, string = "Delete", cardWidth = 120, cardHeight = 40,
+            { navController.navigate(BottomBarScreen.TaskList.route) })
+
     }
 }
 
-@Composable
-private fun CardContext(string: String){
-    Row(modifier = Modifier.fillMaxWidth(),
-        verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.Center){
-        Text(text = string, style = MaterialTheme.typography.h5,
-            fontSize = 20.sp,
-            fontWeight = FontWeight.SemiBold)
-    }
-}
 
-private fun addZero(num: Int): String {
-    if( num < 10 ) {
-        val ans = "0" + num.toString()
-        return ans
-    }
-    else return num.toString()
-}
+
+
 
 private val iconSize = 60.dp
 private val DefaultPadding = 40.dp
-private val cardWidth = 120.dp
-private val cardHeight = 40.dp
 
 @Preview
 @Composable

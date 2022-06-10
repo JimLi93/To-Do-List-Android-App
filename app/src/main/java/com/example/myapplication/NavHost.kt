@@ -35,7 +35,7 @@ fun AppNavHost(navController: NavHostController, modifier: Modifier = Modifier) 
                 selectedTaskIndex = backStackEntry.arguments!!.getInt("taskindex")
             )
         }
-        composable("taskpage") { TaskPage(navController = navController)}
+        //composable("taskpage") { TaskPage(navController = navController)}
         composable(
             route = "readstory/{chapterindex}",
             arguments = listOf(
@@ -49,7 +49,7 @@ fun AppNavHost(navController: NavHostController, modifier: Modifier = Modifier) 
                 chapterIndex = backStackEntry.arguments!!.getInt("chapterindex")
             )
         }
-        composable("storymappage") { StoryMapPage(navController = navController)}
+        //composable("storymappage") { StoryMapPage(navController = navController)}
         composable(
             route = "taskdetailhistory/{taskindex}",
             arguments = listOf(

@@ -1,7 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
-
-    <style name="Theme.MyApplication" parent="android:Theme.Material.Light.NoActionBar">
-        <item name="android:statusBarColor">@color/purple_700</item>
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Base application theme. -->
+    <style name="Theme.MyApplication" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
+        <!-- Primary brand color. -->
+        <!-- ok and cancel-->
+        <item name="colorPrimary">@color/rose3</item>
+        <!-- top phone color-->
+        <item name="colorPrimaryVariant">@color/rose1</item>
+        <!--no effect-->
+        <item name="colorOnPrimary">@color/white</item>
+        <!-- Secondary brand color. -->
+        <!--main color-->
+        <item name="colorSecondary">@color/rose2</item>
+        <!--no effect-->
+        <item name="colorSecondaryVariant">@color/black</item>
+        <!--no effect-->
+        <item name="colorOnSecondary">@color/rose5</item>
+        <!-- Status bar color. -->
+        <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
+        <!-- Customize your theme here. -->
     </style>
+
+
 </resources>

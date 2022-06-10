@@ -26,6 +26,8 @@ import com.example.myapplication.ui.theme.Rose2
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import com.example.myapplication.components.CardButton
+import com.example.myapplication.components.SelectItems
 import com.example.myapplication.data.UserData
 import java.time.Year
 import java.util.*
@@ -55,132 +57,22 @@ fun EditTask(
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             val data = UserData.tasks[selectedTaskIndex]
-            EditString("Task name", data.name)
-            //Spacer(Modifier.height(DefaultPadding))
-            Text("Due Date", modifier = Modifier.padding(12.dp))
-            SelectDateEdit(data.year, data.month, data.date)
-            Text("Due Time", modifier = Modifier.padding(12.dp))
-            SelectTimeEdit(data.hour, data.minute)
+            AddString("Task name", data.name)
+            SelectItems(true, data.year, data.month, data.date, data.hour, data.minute)
             Spacer(Modifier.height(DefaultPadding))
-            EditString("Details", data.details)
-            Spacer(Modifier.height(DefaultPadding * 2))
-            Card(shape = RectangleShape, backgroundColor = Rose2,
-                /* TODO: store the task before back to "edittask" */
-                modifier = Modifier
-                    .clickable(onClick = {navController.navigate(BottomBarScreen.TaskList.route)})
-            ) {
-                Text(text = "Save")
-            }
+            AddString("Details", data.details)
+            Spacer(Modifier.height(DefaultPadding))
+            /* TODO: store the task before back to "edittask" */
+            CardButton(
+                navController = navController
+                , string = "Save"
+                , cardWidth = 100
+                , cardHeight = 40
+                , onClick = { navController.navigate(BottomBarScreen.TaskList.route) }
+            )
         }
     }
 
-}
-
-@Composable
-fun EditString(title: String, inputString: String) {
-    var string by rememberSaveable { mutableStateOf(inputString) }
-    StatelessAddString(string = string, onStringChange = { string = it }, title)
-}
-
-@Composable
-fun SelectDateEdit(year: Int, month: Int, date: Int){
-
-    // Fetching the Local Context
-    val mContext = LocalContext.current
-
-    // Declaring integer values
-    // for year, month and day
-    val mYear = year
-    val mMonth = month
-    val mDay = date
-
-    // Initializing a Calendar
-    val mCalendar = Calendar.getInstance()
-
-    // Fetching current year, month and day
-    //mYear = mCalendar.get(Calendar.YEAR)
-    //mMonth = mCalendar.get(Calendar.MONTH)
-    //mDay = mCalendar.get(Calendar.DAY_OF_MONTH)
-
-    mCalendar.time = Date()
-
-    // Declaring a string value to
-    // store date in string format
-    val mDate = remember { mutableStateOf("$mYear/$mMonth/$mDay") }
-
-    // Declaring DatePickerDialog and setting
-    // initial values as current values (present year, month and day)
-    val mDatePickerDialog = DatePickerDialog(
-        mContext,
-        { _, mYear, mMonth, mDay ->
-            mDate.value = "$mYear/${mMonth+1}/${mDay}"
-        }, mYear, mMonth, mDay
-    )
-
-    Column(modifier = Modifier.fillMaxWidth(), verticalArrangement = Arrangement.Center, horizontalAlignment = Alignment.CenterHorizontally) {
-
-        // Creating a button that on
-        // click displays/shows the DatePickerDialog
-        Button(onClick = {
-            mDatePickerDialog.show()
-        }, colors = ButtonDefaults.buttonColors(backgroundColor = Rose2) ) {
-            Text(text = "Select a date", color = Color.Black)
-        }
-
-        // Adding a space of 100dp height
-        //Spacer(modifier = Modifier.size(50.dp))
-
-        // Displaying the mDate value in the Text
-        Text(text = "${mDate.value}", fontSize = 30.sp, textAlign = TextAlign.Center)
-    }
-}
-
-@Composable
-fun SelectTimeEdit(hour: Int, minute: Int){
-
-    // Fetching the Local Context
-    val mContext = LocalContext.current
-
-    val mHour = hour
-    val mMinute = minute
-    // Initializing a Calendar
-    val mCalendar = Calendar.getInstance()
-
-    // Fetching current year, month and day
-    //mHour = mCalendar.get(Calendar.HOUR_OF_DAY)
-    //mMinute = mCalendar.get(Calendar.MINUTE)
-
-    mCalendar.time = Date()
-
-    // Declaring a string value to
-    // store date in string format
-    val mTime = remember { mutableStateOf("$mHour/$mMinute") }
-
-    // Declaring DatePickerDialog and setting
-    // initial values as current values (present year, month and day)
-    val mDatePickerDialog = TimePickerDialog(
-        mContext,
-        { _, mHour, mMinute ->
-            mTime.value = "$mHour/$mMinute"
-        }, mHour, mMinute, false
-    )
-
-    Column(modifier = Modifier.fillMaxWidth(), verticalArrangement = Arrangement.Center, horizontalAlignment = Alignment.CenterHorizontally) {
-
-        // Creating a button that on
-        // click displays/shows the DatePickerDialog
-        Button(onClick = {
-            mDatePickerDialog.show()
-        }, colors = ButtonDefaults.buttonColors(backgroundColor = Rose2) ) {
-            Text(text = "Select time", color = Color.Black)
-        }
-
-        // Adding a space of 100dp height
-        //Spacer(modifier = Modifier.size(50.dp))
-
-        // Displaying the mDate value in the Text
-        Text(text = "${mTime.value}", fontSize = 30.sp, textAlign = TextAlign.Center)
-    }
 }
 
 @Preview
