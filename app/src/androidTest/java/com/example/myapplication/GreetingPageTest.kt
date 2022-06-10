@@ -7,14 +7,10 @@ import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
-import androidx.test.platform.app.InstrumentationRegistry
-import androidx.test.ext.junit.runners.AndroidJUnit4
 
 import org.junit.Test
-import org.junit.runner.RunWith
 
 import org.junit.Assert.*
-import org.junit.Before
 import org.junit.Rule
 
 /**
@@ -22,7 +18,7 @@ import org.junit.Rule
  *
  * See [testing documentation](http://d.android.com/tools/testing).
  */
-// @RunWith(AndroidJUnit4::class)
+// @org.junit.runner.RunWith(androidx.test.ext.junit.runners.AndroidJUnit4::class)
 class GreetingPageTest {
     @get:Rule
     val composeTestRule = createComposeRule()
