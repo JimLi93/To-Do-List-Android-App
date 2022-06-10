@@ -1,14 +1,12 @@
 package com.example.myapplication
 
-import android.util.Log
-import androidx.compose.ui.test.hasClickAction
+import androidx.compose.ui.test.*
 import androidx.compose.ui.test.junit4.createComposeRule
-import androidx.compose.ui.test.onNodeWithText
-import androidx.compose.ui.test.performClick
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import androidx.test.platform.app.InstrumentationRegistry.getInstrumentation
 import androidx.test.uiautomator.UiDevice
+import org.junit.Assert.assertFalse
 import org.junit.Assert.assertTrue
 import org.junit.Before
 import org.junit.Rule
@@ -136,6 +134,23 @@ class BackstackTest {
 
         assertTrue(
             navController.currentBackStackEntry?.destination?.route != BottomBarScreen.StoryMap.route
+        )
+    }
+
+    @Test
+    fun taskDetailsBackstackTest() {
+        composeTestRule.onNode(hasClickAction(), true).performClick()
+        composeTestRule.onNodeWithText("Task1").performClick()
+        // Click the back arrow
+        composeTestRule.onNode(
+            hasClickAction() and isEnabled() and hasAnySibling(hasTextExactly("DETAILS"))
+        ).performClick()
+        // Press the back button
+        uiDevice.pressBack()
+        // Check that the current screen is not a task detail
+        assertFalse(
+            navController.currentBackStackEntry?.destination?.route?.startsWith("taskdetail")
+                ?: false
         )
     }
 }
