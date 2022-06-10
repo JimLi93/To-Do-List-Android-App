@@ -11,13 +11,13 @@ import androidx.compose.material.icons.filled.Lock
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
+import com.example.myapplication.components.DrawMapLine
 import com.example.myapplication.data.SolidUserData
 import com.example.myapplication.ui.theme.*
 
@@ -54,19 +54,11 @@ fun StoryMapPage(navController: NavHostController) {
                     navController = navController
                 )
             }
-            Canvas(modifier = Modifier.fillMaxSize()) {
-                val canvasWidth = size.width
-                val canvasHeight = size.height
-
-                drawLine(
-                    start = Offset(x = lineleftdp[0], y = lineupdp[0]),
-                    end = Offset(x = lineleftdp[1], y = lineupdp[1]),
-                    color = Color.Black,
-                    strokeWidth = 10F
-                )
-
-            }
-
+            //draw the line in story map
+            DrawMapLine(0)
+            DrawMapLine(2)
+            DrawMapLine(4)
+            DrawMapLine(6)
         }
     }
 }
@@ -111,7 +103,7 @@ fun StoryButton(
         modifier = Modifier
             .clickable(
                 onClick = {
-                    if(valid) navController.navigate("readstory/${chapterIndex}")
+                    if (valid) navController.navigate("readstory/${chapterIndex}")
                     else showAlertDialog = true
                 }
             )
@@ -193,5 +185,3 @@ fun StoryMapPagePreview() {
 private val leftdp: List<Int> = listOf(70, 290, 20 , 170 ,270)
 private val updp: List<Int> = listOf(30, 100, 220 , 300 ,480)
 
-private val lineleftdp: List<Float> = listOf(580f, 1020f, 20f , 170f ,270f)
-private val lineupdp: List<Float> = listOf(350f, 500f, 220f , 300f ,480f)

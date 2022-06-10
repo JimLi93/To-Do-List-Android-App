@@ -34,7 +34,7 @@ fun ReadStory(
                 string = headerString,
                 backArrow = true,
                 navController = navController,
-                backArrowDestination = "storymappage"
+                backArrowDestination = BottomBarScreen.StoryMap.route
             )
         },
         backgroundColor = Rose1

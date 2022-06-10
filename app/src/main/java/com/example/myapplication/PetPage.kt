@@ -1,7 +1,9 @@
 package com.example.myapplication
 
 
+import android.service.autofill.OnClickAction
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -13,6 +15,7 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
@@ -21,6 +24,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
+import com.example.myapplication.components.FAB
 import com.example.myapplication.data.SolidUserData
 import com.example.myapplication.ui.theme.MyApplicationTheme
 import com.example.myapplication.ui.theme.Rose0
@@ -53,30 +57,34 @@ fun PetPage(navController: NavHostController) {
             )
             ReactButton()
             var count by rememberSaveable { mutableStateOf(0) }
-            Column(
+            Row(
                 modifier = Modifier
-                    .fillMaxWidth()
-                    .fillMaxHeight(), horizontalAlignment = Alignment.CenterHorizontally
+                    .fillMaxSize()
+                    .padding(innerPadding),
+                verticalAlignment = Alignment.Bottom,
+                horizontalArrangement = Arrangement.Center
             ) {
-                val height = spacerInPetPage[count]
-                Spacer(Modifier.height(height.dp))
                 CatImage(count)
             }
-            Column(
+            Row(
                 modifier = Modifier
-                    .fillMaxWidth()
-                    .fillMaxHeight(), horizontalAlignment = Alignment.CenterHorizontally
+                    .fillMaxSize()
+                    .padding(innerPadding),
+                verticalAlignment = Alignment.Bottom,
+                horizontalArrangement = Arrangement.Center
             ) {
-                Spacer(Modifier.height(SwitchPetSpacer))
-                SwitchPetBar(count = count,
-                    onIncrementAdd = { count++ },
-                    onIncrementMinus = { count-- }
-                )
+
+                    SwitchPetBar(count = count,
+                        onIncrementAdd = { count++ },
+                        onIncrementMinus = { count-- }
+                    )
+
             }
 
         }
     }
 }
+
 
 @Composable
 fun ReactButton() {
@@ -85,24 +93,9 @@ fun ReactButton() {
             .fillMaxWidth()
             .fillMaxHeight(), horizontalArrangement = Arrangement.SpaceAround
     ) {
-        FloatingActionButton(
-            onClick = { /*TODO*/ }, modifier = Modifier.padding(reactButtonDp),
-            backgroundColor = Rose0, shape = CircleShape
-        ) {
-            Icon(imageVector = Icons.Default.CleaningServices, "Brush")
-        }
-        FloatingActionButton(
-            onClick = { /*TODO*/ }, modifier = Modifier.padding(reactButtonDp),
-            backgroundColor = Rose0, shape = CircleShape
-        ) {
-            Icon(imageVector = Icons.Default.Shower, "Shower")
-        }
-        FloatingActionButton(
-            onClick = { /*TODO*/ }, modifier = Modifier.padding(reactButtonDp),
-            backgroundColor = Rose0, shape = CircleShape
-        ) {
-            Icon(imageVector = Icons.Default.EmojiFoodBeverage, "Feed")
-        }
+        FAB(Icons.Default.CleaningServices, Rose0, 60, 16, { /*TODO*/ }, "Brush")
+        FAB(Icons.Default.Shower, Rose0, 60, 16, { /*TODO*/ }, "Shower")
+        FAB(Icons.Default.EmojiFoodBeverage, Rose0, 60, 16, { /*TODO*/ }, "Feed")
     }
 
 }
@@ -126,9 +119,9 @@ fun SwitchPetBar(
     val name = SolidUserData.pets[count].name
     val amount = SolidUserData.pets.map { pet -> 1 }.sum()
     Row(
-        modifier = Modifier
-            .fillMaxWidth()
-            .fillMaxHeight(), horizontalArrangement = Arrangement.SpaceAround
+        modifier = Modifier.fillMaxSize()
+        , horizontalArrangement = Arrangement.SpaceAround
+        , verticalAlignment = Alignment.Bottom
     ) {
 
         if (count == 0) {
@@ -163,7 +156,9 @@ fun SwitchPetBar(
                         Image(
                             painter = painterResource(R.drawable.greeting_cat),
                             contentDescription = "Pet image in introduction",
-                            modifier = Modifier.padding(30.dp,40.dp,0.dp,0.dp).size(150.dp)
+                            modifier = Modifier
+                                .padding(30.dp, 40.dp, 0.dp, 0.dp)
+                                .size(150.dp)
                         )
                     }
                 },
