@@ -157,7 +157,7 @@ fun StoryButton(
         AlertDialog(
             onDismissRequest = { showAlertDialog = false },
             title = { Text("Oops!")},
-            text = {Text("Chapter "+chapter.toString()+"-"+subchapter.toString()+" is unlocked. Please finish deadline to unlock the chapter")},
+            text = {Text("Chapter "+chapter.toString()+"-"+subchapter.toString()+" is locked. Please finish deadline to unlock the chapter")},
             confirmButton = {
                 Button(onClick = {showAlertDialog = false},
                     colors = ButtonDefaults.buttonColors(backgroundColor = Yellow1)) {
