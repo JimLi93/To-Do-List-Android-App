@@ -8,18 +8,23 @@ import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
+import com.example.myapplication.ui.TaskViewModel
 
 @Composable
-fun AppNavHost(navController: NavHostController, modifier: Modifier = Modifier) {
+fun AppNavHost(
+    navController: NavHostController,
+    viewModel: TaskViewModel,
+    modifier: Modifier = Modifier
+) {
     NavHost(
         navController = navController,
         startDestination = "greeting",
         modifier = modifier
     ) {
-        composable("addtask") { AddTask(navController = navController) }
+        composable("addtask") { AddTask(navController = navController, viewModel = viewModel) }
         composable("greeting") { Greeting(navController = navController) }
         composable(BottomBarScreen.Pet.route) { PetPage(navController = navController) }
-        composable(BottomBarScreen.TaskList.route) { TaskPage(navController = navController) }
+        composable(BottomBarScreen.TaskList.route) { TaskPage(navController = navController, taskList = viewModel.allTasks) }
         composable(
             BottomBarScreen.StoryMap.route +"/{chapterindex}",
             arguments = listOf(

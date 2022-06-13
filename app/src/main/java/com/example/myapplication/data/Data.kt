@@ -1,9 +1,10 @@
 package com.example.myapplication.data
 
-import android.accounts.Account
-import androidx.compose.ui.graphics.Color
+import androidx.room.Entity
+import androidx.room.PrimaryKey
 
 
+@Entity(tableName = "task_table")
 data class Task(
     val name: String,
     val year: Int,
@@ -12,7 +13,8 @@ data class Task(
     val hour:Int,
     val minute: Int,
     val details: String,
-    val id: Int
+    @PrimaryKey(autoGenerate = true)
+    val id: Int = 0
 )
 
 

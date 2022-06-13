@@ -3,15 +3,24 @@ package com.example.myapplication
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.activity.viewModels
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.lifecycle.ViewModel
 import androidx.navigation.compose.rememberNavController
+import com.example.myapplication.data.TaskRoomDatabase
+import com.example.myapplication.ui.TaskViewModel
+import com.example.myapplication.ui.TaskViewModelFactory
 import com.example.myapplication.ui.theme.MyApplicationTheme
 
 class MainActivity : ComponentActivity() {
+    val database: TaskRoomDatabase by lazy { TaskRoomDatabase.getDatabase(this) }
+    private val viewModel: TaskViewModel by viewModels {
+        TaskViewModelFactory(database.taskDao())
+    }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
@@ -21,7 +30,7 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colors.background
                 ) {
-                    MyApp()
+                    MyApp(viewModel)
                 }
             }
         }
@@ -29,8 +38,8 @@ class MainActivity : ComponentActivity() {
 }
 
 @Composable
-fun MyApp() {
+fun MyApp(viewModel: TaskViewModel) {
     val navController = rememberNavController()
-    AppNavHost(navController = navController)
+    AppNavHost(navController = navController, viewModel = viewModel)
 }
 

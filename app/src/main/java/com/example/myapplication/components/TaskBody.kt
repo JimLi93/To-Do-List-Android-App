@@ -15,7 +15,7 @@ import com.example.myapplication.ui.theme.Rose1
 @Composable
 fun <T> TaskBody(
     modifier: Modifier,
-    data: List<T>,
+    data: List<T>?,
     row: @Composable (T) -> Unit
 ){
     Box(modifier = modifier) {
@@ -24,7 +24,7 @@ fun <T> TaskBody(
                 .padding(0.dp)
                 .verticalScroll(rememberScrollState())
         ) {
-            data.forEach {
+            data?.forEach {
                 row(it)
             }
         }

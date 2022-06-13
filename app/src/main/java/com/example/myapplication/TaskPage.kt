@@ -10,12 +10,15 @@ import androidx.compose.material.ButtonDefaults.IconSize
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Sort
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.LiveData
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
@@ -27,7 +30,8 @@ import com.example.myapplication.ui.theme.*
 
 
 @Composable
-fun TaskPage(navController: NavHostController) {
+fun TaskPage(navController: NavHostController, taskList: LiveData<List<Task>>) {
+    val taskListState by taskList.observeAsState()
     Scaffold(
         topBar = { TopHeader(
                     string = "TASK",
@@ -43,7 +47,7 @@ fun TaskPage(navController: NavHostController) {
     ) {
         innerPadding ->
         TaskBody(
-            data = UserData.tasks,
+            data = taskListState,  // UserData.tasks
             modifier = Modifier.padding(innerPadding),
         ) { task ->
             TaskListBar(
@@ -76,8 +80,8 @@ fun AddTaskButton(navController: NavHostController){
     }
 }
 
-
-
+// TODO: fake data base
+/*
 @Preview
 @Composable
 fun TaskPagePreview() {
@@ -85,5 +89,5 @@ fun TaskPagePreview() {
         val navController = rememberNavController()
         TaskPage(navController)
     }
-}
+}*/
 

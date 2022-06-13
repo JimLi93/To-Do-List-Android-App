@@ -31,10 +31,11 @@ import com.example.myapplication.components.CardButton
 import com.example.myapplication.components.SelectDate
 import com.example.myapplication.components.SelectItems
 import com.example.myapplication.components.SelectTime
+import com.example.myapplication.ui.TaskViewModel
 import java.util.*
 
 @Composable
-fun AddTask(navController: NavHostController) {
+fun AddTask(navController: NavHostController, viewModel: TaskViewModel) {
     Scaffold(
         topBar = {
             TopHeader(
@@ -54,11 +55,23 @@ fun AddTask(navController: NavHostController) {
                 .padding(innerPadding),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            AddString("Task name", "")
+            var taskName by rememberSaveable { mutableStateOf("") }
+            // AddString("Task name", "")
+            StatelessAddString(
+                string = taskName,
+                onStringChange = { taskName = it },
+                title = "Task name"
+            )
             //Spacer(Modifier.height(DefaultPadding))
             SelectItems(false, 0,0,0,0,0)
             Spacer(Modifier.height(DefaultPadding))
-            AddString("Details", "")
+            var taskDetail by rememberSaveable { mutableStateOf("") }
+            // AddString("Details", "")
+            StatelessAddString(
+                string = taskDetail,
+                onStringChange = { taskDetail = it },
+                title = "Details"
+            )
             Spacer(Modifier.height(DefaultPadding))
             /* TODO: store the task before back to "addtask" */
             CardButton(
@@ -66,7 +79,11 @@ fun AddTask(navController: NavHostController) {
                 , string = "Add"
                 , cardWidth = 100
                 , cardHeight = 40
-                , onClick = { navController.navigate(BottomBarScreen.TaskList.route) }
+                , onClick = {
+                    // TODO: retrieve date and time
+                    viewModel.addTask(taskName, 2022, 6, 14, 15, 30, taskDetail)
+                    navController.navigate(BottomBarScreen.TaskList.route)
+                }
             )
         }
     }
@@ -95,7 +112,7 @@ fun StatelessAddString(string: String, onStringChange: (String) -> Unit, title: 
 }
 
 
-
+/*
 @Preview
 @Composable
 fun AddTaskPreview() {
@@ -104,5 +121,5 @@ fun AddTaskPreview() {
         AddTask(navController)
     }
 }
-
+ */
 private val DefaultPadding = 20.dp
