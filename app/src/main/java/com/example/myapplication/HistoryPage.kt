@@ -37,7 +37,7 @@ fun HistoryPage(navController: NavHostController) {
             backArrowDestination = BottomBarScreen.TaskList.route)
         },
         bottomBar = { NavBar(navController) },
-        backgroundColor = Rose3
+        backgroundColor = Rose1
     ) { innerPadding ->
         TaskBody(
             data = UserData.historytasks,

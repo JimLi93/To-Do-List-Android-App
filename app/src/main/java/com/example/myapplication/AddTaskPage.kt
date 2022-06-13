@@ -86,11 +86,11 @@ fun StatelessAddString(string: String, onStringChange: (String) -> Unit, title: 
     ) {
         Text(
             text = title, modifier = Modifier.padding(12.dp),
-            style = MaterialTheme.typography.h5,
-            fontWeight = FontWeight.SemiBold
+            style = MaterialTheme.typography.body1
         )
-        OutlinedTextField(value = string, onValueChange = onStringChange,
-            label = { Text(text = title) })
+        OutlinedTextField(value = string, onValueChange = onStringChange
+            , textStyle = MaterialTheme.typography.h5
+            ,label = { Text(text = title , style = MaterialTheme.typography.h5) })
     }
 }
 

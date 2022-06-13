@@ -5,8 +5,10 @@ import android.service.autofill.OnClickAction
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
@@ -26,10 +28,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.example.myapplication.components.FAB
 import com.example.myapplication.data.SolidUserData
-import com.example.myapplication.ui.theme.MyApplicationTheme
-import com.example.myapplication.ui.theme.Rose0
-import com.example.myapplication.ui.theme.Rose1
-import com.example.myapplication.ui.theme.Yellow2
+import com.example.myapplication.ui.theme.*
 
 
 @Composable
@@ -64,7 +63,11 @@ fun PetPage(navController: NavHostController) {
                 verticalAlignment = Alignment.Bottom,
                 horizontalArrangement = Arrangement.Center
             ) {
-                CatImage(count)
+                Column {
+                    CatImage(count)
+                    Spacer(Modifier.height(50.dp))
+                }
+
             }
             Row(
                 modifier = Modifier
@@ -73,11 +76,11 @@ fun PetPage(navController: NavHostController) {
                 verticalAlignment = Alignment.Bottom,
                 horizontalArrangement = Arrangement.Center
             ) {
-
-                    SwitchPetBar(count = count,
-                        onIncrementAdd = { count++ },
-                        onIncrementMinus = { count-- }
-                    )
+                SwitchPetBar(
+                    count = count,
+                    onIncrementAdd = { count++ },
+                    onIncrementMinus = { count-- }
+                )
 
             }
 
@@ -93,9 +96,9 @@ fun ReactButton() {
             .fillMaxWidth()
             .fillMaxHeight(), horizontalArrangement = Arrangement.SpaceAround
     ) {
-        FAB(Icons.Default.CleaningServices, Rose0, 60, 16, { /*TODO*/ }, "Brush")
-        FAB(Icons.Default.Shower, Rose0, 60, 16, { /*TODO*/ }, "Shower")
-        FAB(Icons.Default.EmojiFoodBeverage, Rose0, 60, 16, { /*TODO*/ }, "Feed")
+        FAB(Icons.Default.CleaningServices, Rose0, 80, 16, { /*TODO*/ }, "Brush")
+        FAB(Icons.Default.Shower, Rose0, 80, 16, { /*TODO*/ }, "Shower")
+        FAB(Icons.Default.EmojiFoodBeverage, Rose0, 80, 16, { /*TODO*/ }, "Feed")
     }
 
 }
@@ -105,7 +108,7 @@ private fun CatImage(count: Int) {
     val image = SolidUserData.pets[count].image
     Image(
         painter = painterResource(image), contentDescription = "Pet image in pet page",
-        modifier = Modifier.size(300.dp)
+        modifier = Modifier.size(250.dp)
     )
 }
 
@@ -117,64 +120,114 @@ fun SwitchPetBar(
 ) {
     var showAlertDialog by remember { mutableStateOf(false) }
     val name = SolidUserData.pets[count].name
+    val details = SolidUserData.pets[count].detail
+    val image = SolidUserData.pets[count].image
     val amount = SolidUserData.pets.map { pet -> 1 }.sum()
-    Row(
-        modifier = Modifier.fillMaxSize()
-        , horizontalArrangement = Arrangement.SpaceAround
-        , verticalAlignment = Alignment.Bottom
-    ) {
-
-        if (count == 0) {
-            IconButton(onClick = {}) {
-                //Icon(imageVector = Icons.Filled.KeyboardArrowRight, null)
-            }
-        } else {
-            IconButton(onClick = onIncrementMinus) {
-                Icon(imageVector = Icons.Filled.KeyboardArrowLeft, null)
-            }
-        }
-        Text(text = name, style = MaterialTheme.typography.h4, fontWeight = FontWeight.ExtraBold)
-        IconButton(onClick = { showAlertDialog = true }) {
-            Icon(imageVector = Icons.Filled.FolderOpen, "Pet details icon")
-        }
-        if (count == amount - 1) {
-            IconButton(onClick = {}) {
-                //Icon(imageVector = Icons.Filled.KeyboardArrowLeft, null)
-            }
-        } else {
-            IconButton(onClick = onIncrementAdd) {
-                Icon(imageVector = Icons.Filled.KeyboardArrowRight, null)
-            }
-        }
-        if(showAlertDialog){
-            AlertDialog(
-                onDismissRequest = { showAlertDialog = false },
-                title = {
-                    Row(verticalAlignment = Alignment.CenterVertically,
-                        horizontalArrangement = Arrangement.Center) {
-                        Text("SCP-682", fontSize = 24.sp)
-                        Image(
-                            painter = painterResource(R.drawable.greeting_cat),
-                            contentDescription = "Pet image in introduction",
-                            modifier = Modifier
-                                .padding(30.dp, 40.dp, 0.dp, 0.dp)
-                                .size(150.dp)
-                        )
-                    }
-                },
-                text = {
-                    Text("\n"+"\n"+"\n"+
-                            "SCP-682 是隻大型、類似蜥蜴、來源不明之未知生物。該項目似乎極度聰明。SCP-682 似乎對所有生命表現出憎恨，此舉已反覆表現於收容期間之數次訪談。"+
-                            "\n"+"SCP-682 持續被觀察到具有極高力量、速度、及反應力，但確切能力水平隨其外觀異動而變化。利用消耗能量或蛻皮，SCP-682 可快速改變其體型。" +
-                            "SCP-682 可由攝入的任何物質中獲取能量，甚至是無機物。SCP-682 鼻孔內含之一組過濾鰓似乎有助於消化，可於任何溶液中擷取出有用物質，" +
-                            "使其於強酸中仍可不斷再生。SCP-682 之再生與復原能力十分驚人，SCP-682 曾被觀察到於身體 87% 遭到損毀或腐爛之情況下持續移動及言語。"
-                        , fontSize = 15.sp)
-                },
-                backgroundColor = Yellow2,
-                contentColor = Color.Black,
-                shape = RoundedCornerShape(8.dp),
-                confirmButton = {}
+    Box(){
+        Row(
+            modifier = Modifier
+                .height(bottomHeight)
+                .fillMaxWidth(),
+            horizontalArrangement = Arrangement.Center,
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Text(
+                text = name,
+                modifier = Modifier.padding(horizontal = 12.dp),
+                fontSize = petNameSize,
+                style = MaterialTheme.typography.h4,
+                fontWeight = FontWeight.ExtraBold
             )
+        }
+        Row(
+            modifier = Modifier
+                .height(bottomHeight)
+                .fillMaxWidth()
+                .padding(horizontal = arrowPadding),
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+
+            if (count == 0) {
+                IconButton(onClick = {}) {
+                    //Icon(imageVector = Icons.Filled.KeyboardArrowRight, null
+                // , modifier = Modifier.size(arrowSize))
+                }
+            } else {
+                IconButton(onClick = onIncrementMinus) {
+                    Icon(painter = painterResource(R.drawable.leftarrow), null
+                        , modifier = Modifier.size(arrowSize))
+                }
+            }
+            if (count == amount - 1) {
+                IconButton(onClick = {}) {
+                    //Icon(imageVector = Icons.Filled.KeyboardArrowLeft, null
+                // , modifier = Modifier.size(arrowSize))
+                }
+            } else {
+                IconButton(onClick = onIncrementAdd) {
+                    Icon(painter = painterResource(R.drawable.rightarrow), null
+                        , modifier = Modifier.size(arrowSize))
+                }
+            }
+        }
+        Row(
+            modifier = Modifier
+                .height(bottomHeight)
+                .fillMaxWidth()
+                .padding(horizontal = folderPadding),
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            IconButton(onClick = {}) {
+                //Icon(imageVector = Icons.Filled.FolderShared, "Pet details icon"
+            // , modifier = Modifier.size(folderSize))
+            }
+            IconButton(onClick = { showAlertDialog = true }) {
+                Icon(imageVector = Icons.Filled.FolderShared, "Pet details icon"
+                    , modifier = Modifier.size(folderSize))
+            }
+            if (showAlertDialog) {
+                AlertDialog(
+                    onDismissRequest = { showAlertDialog = false },
+                    title = {
+                        Row(
+                            modifier = Modifier
+                                .height(500.dp)
+                                .fillMaxWidth(),
+                            verticalAlignment = Alignment.CenterVertically,
+                            horizontalArrangement = Arrangement.SpaceBetween
+                        ) {
+                            Text(name, fontSize = 24.sp)
+                            Image(
+                                painter = painterResource(image),
+                                contentDescription = "Pet image in introduction",
+                                modifier = Modifier
+                                    .padding(top = 50.dp)
+                                    .size(100.dp)
+                            )
+                        }
+                    },
+                    modifier = Modifier
+                        .padding(20.dp)
+                    ,
+                    text = {
+                        Text(
+                            details,
+                            fontSize = 15.sp
+                        )
+                    },
+                    backgroundColor = Rose1,
+                    contentColor = Color.Black,
+                    shape = RoundedCornerShape(8.dp),
+                    confirmButton = {
+                        Button(onClick = {showAlertDialog = false},
+                            colors = ButtonDefaults.buttonColors(backgroundColor = Rose2)) {
+                            Text(text = "OK", fontSize = 20.sp)
+                        }
+                    }
+                )
+            }
         }
     }
 }
@@ -192,3 +245,10 @@ fun PetPagePreview() {
 private val reactButtonDp = 16.dp
 private val spacerInPetPage: List<Int> = listOf(300, 250)
 private val SwitchPetSpacer = 550.dp
+private val bottomHeight = 80.dp
+private val folderSize = 38.dp
+private val folderPadding = 65.dp
+private val arrowPadding = 20.dp
+private val petNameSize = 50.sp
+private val arrowSize = 45.dp
+

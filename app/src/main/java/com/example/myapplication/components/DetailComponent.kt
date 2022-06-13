@@ -1,36 +1,97 @@
 package com.example.myapplication.components
 
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.Card
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Text
-import androidx.compose.runtime.Composable
+import androidx.compose.material.*
+import androidx.compose.material.SnackbarDefaults.backgroundColor
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
+import com.example.myapplication.ui.theme.Rose1
 import com.example.myapplication.ui.theme.Rose2
 
 @Composable
 fun CardButton(navController: NavHostController, string: String,
                 cardWidth: Int, cardHeight: Int, onClick: () -> Unit){
+    var showAlertDialog by remember { mutableStateOf(false) }
+    val AlertString: String
+    val uu: () -> Unit
+    if(string == "Complete"){
+        uu = { showAlertDialog = true }
+        AlertString = "Please make sure you have complete this task."
+    }
+    else if(string == "Delete"){
+        uu = { showAlertDialog = true }
+        AlertString = "Please make sure you know the delete action. \n" +
+                "Your task will be delete forever."
+    }
+    else {
+        uu = onClick
+        AlertString = ""
+    }
+    if(showAlertDialog){
+        AlertDialog(
+            onDismissRequest = { showAlertDialog = false },
+            title = { Text("Confirm", fontSize = 25.sp)},
+            text = {Text(text = AlertString, fontSize = 23.sp)
+            },
+            confirmButton = {
+                if(string == "Complete"){
+                    Row(Modifier.fillMaxWidth().padding(12.dp),
+                        horizontalArrangement = Arrangement.SpaceAround,
+                        verticalAlignment = Alignment.CenterVertically){
+                        Button(onClick = onClick,
+                            colors = ButtonDefaults.buttonColors(backgroundColor = Rose2)) {
+                            Text(text = "I've finished.", fontSize = 20.sp)
+                        }
+                        Button(onClick = {showAlertDialog = false},
+                            colors = ButtonDefaults.buttonColors(backgroundColor = Rose2)) {
+                            Text(text = "Not yet finished.", fontSize = 20.sp)
+                        }
+                    }
+                }
+                else if(string == "Delete"){
+                    Row(Modifier.fillMaxWidth().padding(12.dp),
+                        horizontalArrangement = Arrangement.SpaceAround,
+                        verticalAlignment = Alignment.CenterVertically){
+                        Button(onClick = onClick,
+                            colors = ButtonDefaults.buttonColors(backgroundColor = Rose2)) {
+                            Text(text = "I want to delete.", fontSize = 20.sp)
+                        }
+                        Button(onClick = {showAlertDialog = false},
+                            colors = ButtonDefaults.buttonColors(backgroundColor = Rose2)) {
+                            Text(text = "I will save it.", fontSize = 20.sp)
+                        }
+                    }
+                }
+                else {
+                    Button(onClick = {showAlertDialog = false},
+                        colors = ButtonDefaults.buttonColors(backgroundColor = Rose2)) {
+                        Text(text = "OK", fontSize = 20.sp)
+                    }
+                }
+            },
+
+            backgroundColor = Rose1,
+            contentColor = Color.Black,
+            shape = RoundedCornerShape(8.dp)
+        )
+    }
     Card(shape = RoundedCornerShape(20.dp), backgroundColor = Rose2,
         modifier = Modifier
             .size(width = cardWidth.dp, height = cardHeight.dp)
-            .clickable(onClick = onClick )
+            .clickable(onClick =  uu)
     ) {
         Row(modifier = Modifier.fillMaxWidth(),
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.Center){
-            Text(text = string, style = MaterialTheme.typography.h5,
-                fontSize = 20.sp,
+            Text(text = string, style = MaterialTheme.typography.button,
                 fontWeight = FontWeight.SemiBold)
         }
     }

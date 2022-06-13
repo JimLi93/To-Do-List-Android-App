@@ -23,7 +23,9 @@ import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.List
-
+import androidx.compose.ui.text.font.Font
+import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.ui.unit.sp
 
 @Composable
 fun TopHeader(string :String = "ERROR",
@@ -37,7 +39,7 @@ fun TopHeader(string :String = "ERROR",
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(12.dp),
+                .padding(6.dp),
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
             IconButton(
@@ -56,9 +58,8 @@ fun TopHeader(string :String = "ERROR",
             }
             Text(
                 text = string,
-                style = MaterialTheme.typography.h3,
                 modifier = Modifier.align(Alignment.CenterVertically),
-                fontWeight = FontWeight.ExtraBold
+                style = MaterialTheme.typography.h2
             )
             IconButton(
                 enabled = trophy,
@@ -105,7 +106,7 @@ fun RowScope.AddItem(
 ){
     BottomNavigationItem(
         label = {
-            Text(text = screen.title)
+            Text(text = screen.title, style = MaterialTheme.typography.subtitle2)
         },
         icon = {
             Icon(

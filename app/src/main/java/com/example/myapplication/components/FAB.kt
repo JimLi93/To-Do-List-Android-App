@@ -26,6 +26,6 @@ fun FAB(
             .size(size.dp),
         backgroundColor = backgroundColor, shape = CircleShape
     ) {
-        Icon(imageVector = imageVector, string)
+        Icon(imageVector = imageVector, string, Modifier.size(40.dp))
     }
 }

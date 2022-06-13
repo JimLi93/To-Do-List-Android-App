@@ -53,7 +53,7 @@ fun TaskListBar(
             val deadline = "Deadline: "+addZero(year)+"/"+addZero(month)+"/"+
                     addZero(date)+"/"+addZero(hour)+":"+addZero(minute)
             Text(text = deadline, modifier = Modifier.padding(start = 12.dp, bottom = 4.dp)
-                ,style = MaterialTheme.typography.subtitle2)
+                ,style = MaterialTheme.typography.h6)
         }
     }
 }

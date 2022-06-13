@@ -5,6 +5,7 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
@@ -26,7 +27,7 @@ fun ReadStory(
     navController: NavHostController,
 ) {
     val data = SolidUserData.stories[chapterIndex]
-    val headerString = "Chapter" + data.chapter.toString() + "-" + data.subchapter.toString()
+    val headerString = "Chapter " + data.chapter.toString() + "-" + data.subchapter.toString()
     val story = data.detail
     Scaffold(
         topBar = {
@@ -53,7 +54,12 @@ fun ReadStory(
                     it.content
                 )
             }
-            Text(text = "- To be continued -", modifier = Modifier.padding(30.dp))
+            Column (modifier = Modifier.fillMaxWidth()
+                , horizontalAlignment = Alignment.CenterHorizontally){
+                Text(text = "- To be continued -", modifier = Modifier.padding(30.dp),
+                style = MaterialTheme.typography.body1)
+            }
+
         }
     }
 }
@@ -68,7 +74,8 @@ fun ReadingBar(
 ) {
     if (id == 0) {
         Row(verticalAlignment = Alignment.CenterVertically) {
-            Text(text = content, modifier = Modifier.padding(textPadding + 4.dp))
+            Text(text = content, modifier = Modifier.padding(textPadding + 4.dp)
+                , style = MaterialTheme.typography.body2)
         }
     } else if (id == 1) {
         Row(modifier = Modifier.fillMaxWidth()) {
@@ -83,14 +90,15 @@ fun ReadingBar(
                     contentDescription = null,
                     modifier = Modifier.height(characterHeight)
                 )
-                Text(text = character)
+                Text(text = character, style = MaterialTheme.typography.subtitle1)
             }
             Text(
                 text = content, modifier = Modifier
                     .padding(start = textPadding, end = textPadding, top = textPadding / 3)
                     .fillMaxWidth()
                     .height(characterHeight),
-                textAlign = TextAlign.Justify
+                textAlign = TextAlign.Justify,
+                style = MaterialTheme.typography.body2
             )
         }
     } else {
@@ -99,7 +107,8 @@ fun ReadingBar(
             Text(text = content, modifier = Modifier
                 .padding(start = textPadding, end = textPadding, top = textPadding / 3)
                 .width(300.dp),
-                textAlign = TextAlign.Right)
+                textAlign = TextAlign.Right,
+                style = MaterialTheme.typography.body2)
             Column(
                 modifier = Modifier.fillMaxHeight(),
                 horizontalAlignment = Alignment.CenterHorizontally
@@ -109,7 +118,7 @@ fun ReadingBar(
                     contentDescription = null,
                     modifier = Modifier.height(characterHeight)
                 )
-                Text(text = character)
+                Text(text = character, style = MaterialTheme.typography.subtitle1)
             }
         }
     }

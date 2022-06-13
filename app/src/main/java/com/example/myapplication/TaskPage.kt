@@ -38,7 +38,7 @@ fun TaskPage(navController: NavHostController) {
                     trophyDestination = "historypage")
                  },
         bottomBar = { NavBar(navController) },
-        backgroundColor = Rose3,
+        backgroundColor = Rose1,
         floatingActionButton = { AddTaskButton(navController) }
     ) {
         innerPadding ->

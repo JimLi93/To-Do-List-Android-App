@@ -54,12 +54,11 @@ fun TaskDetail(navController: NavHostController, selectedTaskIndex: Int) {
             Spacer(Modifier.height(DefaultPadding))
             TaskBarWithEdit(navController, taskName, selectedTaskIndex)
             Text(text = deadline, modifier = Modifier.padding(top = 24.dp)
-                ,style = MaterialTheme.typography.subtitle1)
+                ,style = MaterialTheme.typography.h5)
             Text(modifier = Modifier
                 .fillMaxWidth()
                 .padding(start = 60.dp, end = 60.dp, top = 30.dp)
-                , text = details, style = MaterialTheme.typography.h5,
-                fontWeight = FontWeight.SemiBold)
+                , text = details, style = MaterialTheme.typography.body1)
             Spacer(Modifier.height(DefaultPadding*5))
             CompleteDelete(navController)
 
@@ -87,7 +86,7 @@ private fun TaskBarWithEdit(
                 .size(iconSize)
         ) {
         }
-        Text(text = taskName, fontSize = 45.sp, style = MaterialTheme.typography.h4,fontWeight = FontWeight.Bold)
+        Text(text = taskName, style = MaterialTheme.typography.h3)
         IconButton(
             onClick = { navController.navigate("edittask/${selectedTaskIndex}") },
             modifier = Modifier

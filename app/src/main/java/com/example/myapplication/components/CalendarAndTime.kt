@@ -74,14 +74,16 @@ fun SelectDate(edit: Boolean, year: Int, month: Int, date: Int){
         Button(onClick = { mDatePickerDialog.show() } , modifier = Modifier.width(width)
             , colors = ButtonDefaults.buttonColors(backgroundColor = Rose2)
         ) {
-            Text(text = "Select date", color = Color.Black)
+            Text(text = "Select date", color = Color.Black, style = MaterialTheme.typography.h5,
+                fontWeight = FontWeight.Bold)
         }
 
         // Adding a space of 100dp height
         //Spacer(modifier = Modifier.size(50.dp))
 
         // Displaying the mDate value in the Text
-        Text(text = mDate.value, fontSize = 30.sp, textAlign = TextAlign.Center)
+        Text(text = mDate.value, textAlign = TextAlign.Center,
+            style = MaterialTheme.typography.body1)
     }
 }
 
@@ -131,14 +133,17 @@ fun SelectTime(edit: Boolean, hour: Int, minute: Int){
         Button(onClick = { mTimePickerDialog.show() } , modifier = Modifier.width(width)
             , colors = ButtonDefaults.buttonColors(backgroundColor = Rose2)
             ) {
-            Text(text = "Select time", color = Color.Black)
+            Text(text = "Select time", color = Color.Black, style = MaterialTheme.typography.h5,
+            fontWeight = FontWeight.Bold
+            )
         }
 
         // Adding a space of 100dp height
         //Spacer(modifier = Modifier.size(50.dp))
 
         // Displaying the mDate value in the Text
-        Text(text = mTime.value, fontSize = 30.sp, textAlign = TextAlign.Center)
+        Text(text = mTime.value, textAlign = TextAlign.Center
+            ,style = MaterialTheme.typography.body1)
     }
 }
 
@@ -147,14 +152,12 @@ fun SelectItems(edit: Boolean, year: Int, month: Int, date: Int, hour: Int, minu
     Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceEvenly){
         Column (horizontalAlignment = Alignment.CenterHorizontally){
             Text("Due Date", modifier = Modifier.padding(12.dp),
-                style = MaterialTheme.typography.h5,
-                fontWeight = FontWeight.SemiBold)
+                style = MaterialTheme.typography.body1)
             SelectDate(edit, year, month, date)
         }
         Column(horizontalAlignment = Alignment.CenterHorizontally){
             Text("Due Time", modifier = Modifier.padding(12.dp),
-                style = MaterialTheme.typography.h5,
-                fontWeight = FontWeight.SemiBold)
+                style = MaterialTheme.typography.body1)
             SelectTime(edit, hour, minute)
         }
     }

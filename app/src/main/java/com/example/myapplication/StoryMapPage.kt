@@ -1,37 +1,63 @@
 package com.example.myapplication
 
 
+import android.service.autofill.OnClickAction
+import android.view.MenuItem
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Lock
+import androidx.compose.material.icons.filled.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.geometry.CornerRadius
+import androidx.compose.ui.geometry.Rect
+import androidx.compose.ui.geometry.RoundRect
+import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.Outline
+import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.Density
+import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.example.myapplication.components.DrawMapLine
 import com.example.myapplication.data.SolidUserData
 import com.example.myapplication.ui.theme.*
+import kotlinx.coroutines.launch
+
+
 
 
 @Composable
-fun StoryMapPage(navController: NavHostController) {
+fun StoryMapPage(navController: NavHostController, chapterIndex: Int = 1) {
+    val scaffoldState = rememberScaffoldState()
+    val scope = rememberCoroutineScope()
     Scaffold(
+        scaffoldState = scaffoldState,
         topBar = {
-            TopHeader(
+            StoryTopHeader(
                 string = "STORY MAP",
-                index = true,
-                navController = navController,
+                onClick = {
+                    scope.launch {
+                        scaffoldState.drawerState.open()
+                    }
+                }
             )
         },
+        drawerGesturesEnabled = scaffoldState.drawerState.isOpen,
+        drawerContent = {
+            DrawerBody(navController)
+        },
+        drawerShape = customShape(),
+        drawerBackgroundColor = Rose1,
         bottomBar = { NavBar(navController) },
         backgroundColor = Rose1
 
@@ -42,9 +68,8 @@ fun StoryMapPage(navController: NavHostController) {
                 .fillMaxSize()
                 .verticalScroll(rememberScrollState())
         ) {
-            val currentChapter = 1
-            val startIndex = currentChapter * 5 - 5
-            val endIndex = currentChapter * 5 - 1
+            val startIndex = chapterIndex * 5 - 5
+            val endIndex = chapterIndex * 5 - 1
             val data = SolidUserData.stories
             for (i in startIndex..endIndex) {
                 Spacing2(
@@ -59,6 +84,7 @@ fun StoryMapPage(navController: NavHostController) {
             DrawMapLine(2)
             DrawMapLine(4)
             DrawMapLine(6)
+
         }
     }
 }
@@ -156,32 +182,180 @@ fun StoryButton(
     if(showAlertDialog){
         AlertDialog(
             onDismissRequest = { showAlertDialog = false },
-            title = { Text("Oops!")},
-            text = {Text("Chapter "+chapter.toString()+"-"+subchapter.toString()+" is locked. Please finish deadline to unlock the chapter")},
+            title = { Text("Oops!", fontSize = 25.sp)},
+            text = {Text("Chapter "+chapter.toString()+"-"+subchapter.toString()+" is locked. Please finish deadline to unlock the chapter.",
+                 fontSize = 23.sp)
+                   },
             confirmButton = {
                 Button(onClick = {showAlertDialog = false},
-                    colors = ButtonDefaults.buttonColors(backgroundColor = Yellow1)) {
-                    Text(text = "OK")
+                    colors = ButtonDefaults.buttonColors(backgroundColor = Rose2)) {
+                    Text(text = "OK", fontSize = 20.sp)
                 }
             },
 
-            backgroundColor = Yellow2,
+            backgroundColor = Rose1,
             contentColor = Color.Black,
             shape = RoundedCornerShape(8.dp)
         )
     }
 }
 
+@Composable
+fun DrawerBody(navController: NavHostController){
+    Column(modifier = Modifier
+        .width(indexWidth)
+        .height(indexCircleSize * 5 + 25.dp),
+        horizontalAlignment = Alignment.CenterHorizontally){
+        Spacer(Modifier.height(spacerHeight))
+        for(i in 1..5){
+            Surface (modifier = Modifier
+                .size(indexCircleSize)
+                .padding(circlePadding)
+                , shape = CircleShape, color = Rose0){
+                DrawerCircle(i, navController)
+            }
+            Spacer(Modifier.height(spacerHeight))
+        }
+    }
+}
+
+@Composable
+fun DrawerCircle(i: Int, navController: NavHostController){
+    //TODO: wrong i should be 5*i - 5
+    var showAlertDialog by remember { mutableStateOf(false) }
+    val data = SolidUserData.stories[i-1]
+    val valid = data.valid
+    if(showAlertDialog){
+        AlertDialog(
+            onDismissRequest = { showAlertDialog = false },
+            title = { Text("Oops!", fontSize = 25.sp)},
+            text = {Text("Chapter "+i.toString()+" is locked. Please finish deadline to unlock the chapter.",
+                fontSize = 23.sp)
+            },
+            confirmButton = {
+                Button(onClick = {showAlertDialog = false},
+                    colors = ButtonDefaults.buttonColors(backgroundColor = Rose2)) {
+                    Text(text = "OK", fontSize = 20.sp)
+                }
+            },
+
+            backgroundColor = Rose1,
+            contentColor = Color.Black,
+            shape = RoundedCornerShape(8.dp)
+        )
+    }
+    if (valid) {
+        //Icon(imageVector = Icons.Default.Lock, null)
+        Row(
+            modifier = Modifier
+                .clickable(
+                    onClick = { navController.navigate(route = "storyMap/${i}") }
+                )
+                .fillMaxSize(),
+            horizontalArrangement = Arrangement.Center,
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Text(
+                text = i.toString(),
+                modifier = Modifier.padding(0.dp),
+                style = MaterialTheme.typography.body1,
+                fontWeight = FontWeight.ExtraBold
+            )
+        }
+    } else {
+
+        Row(
+            modifier = Modifier.fillMaxSize(),
+            horizontalArrangement = Arrangement.Center,
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Text(
+                text = i.toString(),
+                modifier = Modifier.padding(0.dp),
+                style = MaterialTheme.typography.body1,
+                fontWeight = FontWeight.ExtraBold,
+                color = Color.LightGray
+            )
+        }
+        Row(
+            modifier = Modifier
+                .fillMaxSize()
+                .clickable(onClick = { showAlertDialog = true }),
+            horizontalArrangement = Arrangement.Center,
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Icon(
+                imageVector = Icons.Default.Lock, null,
+                modifier = Modifier.size(30.dp)
+            )
+        }
+    }
+}
+
+
+@Composable
+fun StoryTopHeader(string :String, onClick: () -> Unit) {
+    Surface(color = Rose2){
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(6.dp),
+            horizontalArrangement = Arrangement.SpaceBetween
+        ) {
+            IconButton(
+                onClick = onClick,
+                modifier = Modifier
+                    .align(Alignment.CenterVertically)
+                    .size(iconSize)
+            ) {
+                Icon(Icons.Filled.List, contentDescription = null)
+            }
+            Text(
+                text = string,
+                modifier = Modifier.align(Alignment.CenterVertically),
+                style = MaterialTheme.typography.h2
+            )
+            IconButton(
+                enabled = false,
+                onClick = { },
+                modifier = Modifier
+                    .align(Alignment.CenterVertically)
+                    .size(iconSize)
+            ) {
+                //Icon(Icons.Filled.Sort, contentDescription = null)
+            }
+        }
+    }
+}
 
 @Preview
 @Composable
 fun StoryMapPagePreview() {
     MyApplicationTheme {
         val navController = rememberNavController()
-        StoryMapPage(navController)
+        StoryMapPage(navController, 1)
     }
 }
 
 private val leftdp: List<Int> = listOf(70, 290, 20 , 170 ,270)
 private val updp: List<Int> = listOf(30, 100, 220 , 300 ,480)
+private val iconSize = 60.dp
 
+fun customShape() = object : Shape {
+    override fun createOutline(
+        size: Size,
+        layoutDirection: LayoutDirection,
+        density: Density
+    ): Outline {
+        return Outline.Rounded(RoundRect(left = 0f, top = 0f, right = size.width / 5, bottom = size.height*38/100,
+            bottomRightCornerRadius = CornerRadius(40f,40f))
+            )
+    }
+
+
+}
+
+private val indexWidth = 70.dp
+private val indexCircleSize = 50.dp
+private val circlePadding = 4.dp
+private val spacerHeight = 5.dp

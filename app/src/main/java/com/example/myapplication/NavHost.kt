@@ -20,7 +20,26 @@ fun AppNavHost(navController: NavHostController, modifier: Modifier = Modifier) 
         composable("greeting") { Greeting(navController = navController) }
         composable(BottomBarScreen.Pet.route) { PetPage(navController = navController) }
         composable(BottomBarScreen.TaskList.route) { TaskPage(navController = navController) }
-        composable(BottomBarScreen.StoryMap.route) { StoryMapPage(navController = navController) }
+        composable(
+            BottomBarScreen.StoryMap.route +"/{chapterindex}",
+            arguments = listOf(
+                navArgument("chapterindex") {
+                    type = NavType.IntType
+                }
+            )
+        ) { backStackEntry ->
+            StoryMapPage(
+                navController = navController,
+                chapterIndex = backStackEntry.arguments!!.getInt("chapterindex")
+            )
+        }
+        composable(
+            BottomBarScreen.StoryMap.route
+        ) {
+            StoryMapPage(
+                navController = navController,1
+            )
+        }
         composable("historypage") { HistoryPage(navController = navController) }
         composable(
             route = "taskdetail/{taskindex}",

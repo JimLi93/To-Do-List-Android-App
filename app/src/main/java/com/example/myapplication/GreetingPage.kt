@@ -3,6 +3,7 @@ package com.example.myapplication
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
+import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
@@ -42,24 +43,23 @@ fun Greeting(navController: NavHostController) {
                 text = "23:59",
                 modifier = Modifier.padding(top = 30.dp),
                 color = Color.Black,
-                fontSize = 70.sp,
-                fontFamily = fontFamily
+                style = MaterialTheme.typography.h1
             )
             Image(
-                painter = painterResource(R.drawable.greeting_cat),
+                painter = painterResource(R.drawable.scp682),
                 contentDescription = null,
                 modifier = Modifier
                     .width(300.dp)
                     .height(300.dp)
+                    .padding(30.dp)
             )
-            Text(text = "Welcome", color = Color.Black, fontSize = 70.sp, fontFamily = fontFamily)
-            Text(text = "back", color = Color.Black, fontSize = 70.sp, fontFamily = fontFamily)
+            Text(text = "Welcome", color = Color.Black, style = MaterialTheme.typography.h1)
+            Text(text = "back", color = Color.Black, style = MaterialTheme.typography.h1)
             Text(
                 text = "-Tap to Continue-",
                 modifier = Modifier.padding(top = 10.dp),
                 color = Color.Black,
-                fontSize = 20.sp,
-                fontFamily = fontFamily
+                style = MaterialTheme.typography.h5
             )
         }
     }
