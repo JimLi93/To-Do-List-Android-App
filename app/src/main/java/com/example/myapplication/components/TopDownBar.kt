@@ -44,7 +44,12 @@ fun TopHeader(string :String = "ERROR",
         ) {
             IconButton(
                 enabled = backArrow,
-                onClick = { navController.navigate(backArrowDestination) },
+                onClick = {
+                        navController.navigate(backArrowDestination) {
+                            popUpTo(navController.graph.findStartDestination().id)
+                            launchSingleTop = true
+                        }
+                },
                 modifier = Modifier
                     .align(Alignment.CenterVertically)
                     .size(iconSize)
@@ -63,7 +68,12 @@ fun TopHeader(string :String = "ERROR",
             )
             IconButton(
                 enabled = trophy,
-                onClick = { navController.navigate(trophyDestination) },
+                onClick = {
+                    navController.navigate(trophyDestination) {
+                        popUpTo(navController.graph.findStartDestination().id)
+                        launchSingleTop = true
+                    }
+                },
                 modifier = Modifier
                     .align(Alignment.CenterVertically)
                     .size(iconSize)
