@@ -27,9 +27,14 @@ import com.example.myapplication.ui.theme.Rose1
 import com.example.myapplication.ui.theme.Rose2
 import com.example.myapplication.ui.theme.Rose3
 import com.example.myapplication.components.addZero
+import com.example.myapplication.data.Task
 
 @Composable
-fun TaskDetail(navController: NavHostController, selectedTaskIndex: Int) {
+fun TaskDetail(
+    navController: NavHostController,
+    data: Task,
+    selectedTaskIndex: Int
+) {
     Scaffold(
         topBar = { TopHeader(
             string = "DETAILS",
@@ -45,7 +50,6 @@ fun TaskDetail(navController: NavHostController, selectedTaskIndex: Int) {
             .fillMaxSize()
             .padding(innerPadding),
                 horizontalAlignment = Alignment.CenterHorizontally){
-            val data = UserData.tasks[selectedTaskIndex]
             val taskName = data.name
             val deadline = "Deadline: "+addZero(data.year)+"/"+addZero(data.month)+"/"+
                     addZero(data.date)+"/"+addZero(data.hour)+"/"+addZero(data.minute)
@@ -120,7 +124,7 @@ fun CompleteDelete(navController: NavHostController){
 
 private val iconSize = 60.dp
 private val DefaultPadding = 40.dp
-
+/*
 @Preview
 @Composable
 private fun TaskDetailPreview() {
@@ -128,4 +132,4 @@ private fun TaskDetailPreview() {
         val navController = rememberNavController()
         TaskDetail(navController, 1)
     }
-}
+}*/

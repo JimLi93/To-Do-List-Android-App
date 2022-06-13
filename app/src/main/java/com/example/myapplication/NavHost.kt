@@ -54,9 +54,11 @@ fun AppNavHost(
                 }
             )
         ) { backStackEntry ->
+            val selectedTaskIndex = backStackEntry.arguments!!.getInt("taskindex")
             TaskDetail(
                 navController = navController,
-                selectedTaskIndex = backStackEntry.arguments!!.getInt("taskindex")
+                data = viewModel.retrieveTask(selectedTaskIndex).value!!,
+                selectedTaskIndex = selectedTaskIndex
             )
         }
         //composable("taskpage") { TaskPage(navController = navController)}

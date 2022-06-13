@@ -47,7 +47,7 @@ fun TaskPage(navController: NavHostController, taskList: LiveData<List<Task>>) {
     ) {
         innerPadding ->
         TaskBody(
-            data = taskListState,  // UserData.tasks
+            data = taskListState,
             modifier = Modifier.padding(innerPadding),
         ) { task ->
             TaskListBar(

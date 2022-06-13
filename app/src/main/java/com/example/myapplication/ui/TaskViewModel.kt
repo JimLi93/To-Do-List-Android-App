@@ -5,18 +5,14 @@ import androidx.lifecycle.*
 import com.example.myapplication.data.Task
 import com.example.myapplication.data.TaskDao
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
 
 class TaskViewModel(private val taskDao: TaskDao) : ViewModel() {
 
     val allTasks: LiveData<List<Task>> = taskDao.getListOfTasks().asLiveData()
-    fun retrieveTaskList() : List<Task>? {
-        val taskList = taskDao.getListOfTasks()
-        Log.d("retrieveTaskList", "taskList: $taskList")
-        return taskList.asLiveData().value
-    }
 
-    fun retrieveTask(id: Long): LiveData<Task> = taskDao.getTask(id).asLiveData()
+    fun retrieveTask(id: Int): LiveData<Task> = taskDao.getTask(id).asLiveData()
 
     fun addTask(
         name: String,
