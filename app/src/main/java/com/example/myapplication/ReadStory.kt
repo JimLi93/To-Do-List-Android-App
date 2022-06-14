@@ -35,7 +35,7 @@ fun ReadStory(
                 string = headerString,
                 backArrow = true,
                 navController = navController,
-                backArrowDestination = BottomBarScreen.StoryMap.route
+                backArrowDestination = "iii"
             )
         },
         backgroundColor = Rose1
@@ -116,7 +116,8 @@ fun ReadingBar(
                 Image(
                     painter = painterResource(image),
                     contentDescription = null,
-                    modifier = Modifier.height(characterHeight)
+                    modifier = Modifier.height(characterHeight),
+                    alpha = 1.5f
                 )
                 Text(text = character, style = MaterialTheme.typography.subtitle1)
             }

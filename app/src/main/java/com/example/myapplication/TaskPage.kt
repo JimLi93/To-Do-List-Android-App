@@ -19,6 +19,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.ViewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
@@ -26,11 +27,12 @@ import com.example.myapplication.components.TaskBody
 import com.example.myapplication.components.TaskListBar
 import com.example.myapplication.data.Task
 import com.example.myapplication.data.UserData
+import com.example.myapplication.ui.TaskViewModel
 import com.example.myapplication.ui.theme.*
 
 
 @Composable
-fun TaskPage(navController: NavHostController, taskList: LiveData<List<Task>>) {
+fun TaskPage(navController: NavHostController, taskList: LiveData<List<Task>>, viewModel: TaskViewModel) {
     val taskListState by taskList.observeAsState()
     Scaffold(
         topBar = { TopHeader(
@@ -52,7 +54,7 @@ fun TaskPage(navController: NavHostController, taskList: LiveData<List<Task>>) {
         ) { task ->
             TaskListBar(
                 modifier = Modifier.clickable(
-                    onClick = { navController.navigate(route = "taskdetail/${task.id}") }
+                    onClick = { }
                 ),
                 name = task.name,
                 year = task.year,
@@ -60,7 +62,10 @@ fun TaskPage(navController: NavHostController, taskList: LiveData<List<Task>>) {
                 date = task.date,
                 hour = task.hour,
                 minute = task.minute,
-                id = task.id
+                id = task.id,
+                navController,
+                viewModel = viewModel,
+                task = task
             )
         }
     }

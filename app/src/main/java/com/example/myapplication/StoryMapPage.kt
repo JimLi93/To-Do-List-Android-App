@@ -37,7 +37,7 @@ import kotlinx.coroutines.launch
 
 
 @Composable
-fun StoryMapPage(navController: NavHostController, chapterIndex: Int = 1) {
+fun StoryMapPage(navController: NavHostController, chapterIndex: Int = 1, congratulation: Int) {
     val scaffoldState = rememberScaffoldState()
     val scope = rememberCoroutineScope()
     Scaffold(
@@ -68,14 +68,35 @@ fun StoryMapPage(navController: NavHostController, chapterIndex: Int = 1) {
                 .fillMaxSize()
                 .verticalScroll(rememberScrollState())
         ) {
+            var showAlertDialog by remember { mutableStateOf(congratulation == 2) }
+            if(showAlertDialog){
+                AlertDialog(
+                    onDismissRequest = { showAlertDialog = false },
+                    title = { Text("Congratulation!!!", fontSize = 30.sp)},
+                    text = {Text("Chapter 1-3 is unlocked.\nHave a good time reading.",
+                        fontSize = 23.sp)
+                    },
+                    confirmButton = {
+                        Button(onClick = {showAlertDialog = false},
+                            colors = ButtonDefaults.buttonColors(backgroundColor = Rose2)) {
+                            Text(text = "OK", fontSize = 20.sp)
+                        }
+                    },
+
+                    backgroundColor = Rose1,
+                    contentColor = Color.Black,
+                    shape = RoundedCornerShape(8.dp)
+                )
+            }
             val startIndex = chapterIndex * 5 - 5
             val endIndex = chapterIndex * 5 - 1
             val data = SolidUserData.stories
+
             for (i in startIndex..endIndex) {
                 Spacing2(
                     chapter = data[i].chapter,
                     subchapter = data[i].subchapter,
-                    valid = data[i].valid,
+                    valid = if(i == 2 && congratulation != 0) true else data[i].valid,
                     navController = navController
                 )
             }
@@ -327,7 +348,7 @@ fun StoryTopHeader(string :String, onClick: () -> Unit) {
         }
     }
 }
-
+/*
 @Preview
 @Composable
 fun StoryMapPagePreview() {
@@ -336,6 +357,7 @@ fun StoryMapPagePreview() {
         StoryMapPage(navController, 1)
     }
 }
+*/
 
 private val leftdp: List<Int> = listOf(70, 290, 20 , 170 ,270)
 private val updp: List<Int> = listOf(30, 100, 220 , 300 ,480)
