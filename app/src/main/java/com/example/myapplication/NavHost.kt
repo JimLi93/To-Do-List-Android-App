@@ -2,7 +2,6 @@ package com.example.myapplication
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.navigation.NavArgument
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
@@ -57,7 +56,10 @@ fun AppNavHost(
             val selectedTaskIndex = backStackEntry.arguments!!.getInt("taskindex")
             TaskDetail(
                 navController = navController,
-                data = viewModel.retrieveTask(selectedTaskIndex).value!!,
+                // THIS DOES NOT WORK
+                //  data = viewModel.retrieveAllTasks().value!![0],
+                // THIS WORKS
+                data = viewModel.allTasks.value!![0],
                 selectedTaskIndex = selectedTaskIndex
             )
         }

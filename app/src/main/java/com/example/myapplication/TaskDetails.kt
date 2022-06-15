@@ -1,31 +1,17 @@
 package com.example.myapplication
 
-import android.graphics.drawable.shapes.Shape
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Edit
-import androidx.compose.material.icons.filled.Sort
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.RectangleShape
-import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
-import androidx.navigation.compose.rememberNavController
 import com.example.myapplication.components.CardButton
-import com.example.myapplication.data.UserData
-import com.example.myapplication.ui.theme.MyApplicationTheme
+import com.example.myapplication.components.TopHeader
 import com.example.myapplication.ui.theme.Rose1
-import com.example.myapplication.ui.theme.Rose2
-import com.example.myapplication.ui.theme.Rose3
 import com.example.myapplication.components.addZero
 import com.example.myapplication.data.Task
 
@@ -109,11 +95,13 @@ fun CompleteDelete(navController: NavHostController){
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.SpaceEvenly) {
         /* TODO: store the task detail change after pressing complete */
-        CardButton(navController, string = "Complete", cardWidth = 120, cardHeight = 40,
-            { navController.navigate(BottomBarScreen.TaskList.route) })
+        CardButton(navController, string = "Complete", cardWidth = 120, cardHeight = 40) {
+            navController.navigate(BottomBarScreen.TaskList.route)
+        }
 
-        CardButton(navController, string = "Delete", cardWidth = 120, cardHeight = 40,
-            { navController.navigate(BottomBarScreen.TaskList.route) })
+        CardButton(navController, string = "Delete", cardWidth = 120, cardHeight = 40) {
+            navController.navigate(BottomBarScreen.TaskList.route)
+        }
 
     }
 }

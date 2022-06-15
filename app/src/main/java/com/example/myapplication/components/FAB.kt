@@ -21,11 +21,11 @@ fun FAB(
     string: String
 ){
     FloatingActionButton(
-        onClick = {onClickAction}, modifier = Modifier
+        onClick = onClickAction, modifier = Modifier
             .padding(padding.dp)
             .size(size.dp),
         backgroundColor = backgroundColor, shape = CircleShape
     ) {
-        Icon(imageVector = imageVector, string, Modifier.size(40.dp))
+        Icon(imageVector, string, Modifier.size(40.dp))
     }
 }

@@ -1,33 +1,22 @@
 package com.example.myapplication
 
 
-import android.graphics.drawable.shapes.Shape
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBack
-import androidx.compose.material.icons.filled.Edit
-import androidx.compose.material.icons.filled.Sort
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.RectangleShape
-import androidx.compose.ui.input.key.Key.Companion.Delete
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.example.myapplication.components.CardButton
+import com.example.myapplication.components.TopHeader
 import com.example.myapplication.components.addZero
 import com.example.myapplication.data.UserData
 import com.example.myapplication.ui.theme.MyApplicationTheme
 import com.example.myapplication.ui.theme.Rose1
-import com.example.myapplication.ui.theme.Rose2
-import com.example.myapplication.ui.theme.Rose3
 
 @Composable
 fun TaskDetailHistory(navController: NavHostController, selectedTaskIndex: Int) {
@@ -42,10 +31,10 @@ fun TaskDetailHistory(navController: NavHostController, selectedTaskIndex: Int) 
         },
         backgroundColor = Rose1
     ) {
-            innerPadding ->
+        // innerPadding ->
         Column (modifier = Modifier.fillMaxSize(),
             horizontalAlignment = Alignment.CenterHorizontally){
-            val data = UserData.historytasks[selectedTaskIndex]
+            val data = UserData.historyTasks[selectedTaskIndex]
             val deadline = "Deadline: "+addZero(data.year)+"/"+addZero(data.month)+"/"+
                     addZero(data.date)+"/"+addZero(data.hour)+"/"+addZero(data.minute)
             val details = "Details:\n" +data.details
@@ -59,8 +48,9 @@ fun TaskDetailHistory(navController: NavHostController, selectedTaskIndex: Int) 
                 .padding(start = 60.dp, end = 60.dp, top = 30.dp)
                 , text = details, style = MaterialTheme.typography.body1)
             Spacer(Modifier.height(DefaultPadding * 5))
-            CardButton(navController, string = "Delete", cardWidth = 120, cardHeight = 40,
-                { navController.navigate("historypage") })
+            CardButton(navController, string = "Delete", cardWidth = 120, cardHeight = 40) {
+                navController.navigate("historypage")
+            }
         }
 
 

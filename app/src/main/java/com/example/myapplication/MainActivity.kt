@@ -9,17 +9,15 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.lifecycle.ViewModel
 import androidx.navigation.compose.rememberNavController
-import com.example.myapplication.data.TaskRoomDatabase
+import com.example.myapplication.data.DatabaseApplication
 import com.example.myapplication.ui.TaskViewModel
 import com.example.myapplication.ui.TaskViewModelFactory
 import com.example.myapplication.ui.theme.MyApplicationTheme
 
 class MainActivity : ComponentActivity() {
-    val database: TaskRoomDatabase by lazy { TaskRoomDatabase.getDatabase(this) }
     private val viewModel: TaskViewModel by viewModels {
-        TaskViewModelFactory(database.taskDao())
+        TaskViewModelFactory((application as DatabaseApplication).database.taskDao())
     }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

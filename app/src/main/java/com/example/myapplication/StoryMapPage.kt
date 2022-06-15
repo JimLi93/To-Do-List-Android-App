@@ -1,8 +1,6 @@
 package com.example.myapplication
 
 
-import android.service.autofill.OnClickAction
-import android.view.MenuItem
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
@@ -14,7 +12,6 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.CornerRadius
-import androidx.compose.ui.geometry.Rect
 import androidx.compose.ui.geometry.RoundRect
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Color
@@ -29,6 +26,7 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.example.myapplication.components.DrawMapLine
+import com.example.myapplication.components.NavBar
 import com.example.myapplication.data.SolidUserData
 import com.example.myapplication.ui.theme.*
 import kotlinx.coroutines.launch
@@ -95,7 +93,7 @@ fun Spacing2(
     subchapter: Int,
     valid: Boolean,
     navController: NavHostController){
-    Column(){
+    Column {
         val hh = updp[subchapter - 1]
         Spacer(modifier = Modifier.height(hh.dp))
         Spacing(chapter, subchapter, valid, navController)
@@ -108,7 +106,7 @@ fun Spacing(
     subchapter: Int,
     valid: Boolean,
     navController: NavHostController){
-    Row(){
+    Row {
         val hh = leftdp[subchapter - 1]
         Spacer(modifier = Modifier.width(hh.dp))
         StoryButton(chapter, subchapter, valid, navController)
@@ -122,7 +120,7 @@ fun StoryButton(
     valid: Boolean,
     navController: NavHostController
 ) {
-    val chapterstring = chapter.toString() + "-" + subchapter.toString()
+    val chapterString = "$chapter-$subchapter"
     var showAlertDialog by remember { mutableStateOf(false) }
     val chapterIndex =chapter * 5 + subchapter - 6
     Surface(
@@ -145,7 +143,7 @@ fun StoryButton(
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Text(
-                    text = chapterstring,
+                    text = chapterString,
                     modifier = Modifier.padding(0.dp),
                     style = MaterialTheme.typography.h4,
                     fontWeight = FontWeight.ExtraBold
@@ -159,7 +157,7 @@ fun StoryButton(
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Text(
-                    text = chapterstring,
+                    text = chapterString,
                     modifier = Modifier.padding(12.dp),
                     style = MaterialTheme.typography.h4,
                     fontWeight = FontWeight.ExtraBold,
@@ -183,7 +181,7 @@ fun StoryButton(
         AlertDialog(
             onDismissRequest = { showAlertDialog = false },
             title = { Text("Oops!", fontSize = 25.sp)},
-            text = {Text("Chapter "+chapter.toString()+"-"+subchapter.toString()+" is locked. Please finish deadline to unlock the chapter.",
+            text = {Text("Chapter $chapter-$subchapter is locked. Please finish deadline to unlock the chapter.",
                  fontSize = 23.sp)
                    },
             confirmButton = {
@@ -229,7 +227,7 @@ fun DrawerCircle(i: Int, navController: NavHostController){
         AlertDialog(
             onDismissRequest = { showAlertDialog = false },
             title = { Text("Oops!", fontSize = 25.sp)},
-            text = {Text("Chapter "+i.toString()+" is locked. Please finish deadline to unlock the chapter.",
+            text = {Text("Chapter $i is locked. Please finish deadline to unlock the chapter.",
                 fontSize = 23.sp)
             },
             confirmButton = {

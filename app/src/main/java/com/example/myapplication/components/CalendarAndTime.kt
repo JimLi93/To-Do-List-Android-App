@@ -17,7 +17,6 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import com.example.myapplication.ui.theme.Rose2
 import java.util.*
 
@@ -41,7 +40,7 @@ fun SelectDate(edit: Boolean, year: Int, month: Int, date: Int){
         mYear = year
         mMonth = month - 1
         mDay = date
-        string = year.toString() + "/" + month.toString() + "/"  + date.toString()
+        string = "$year/$month/$date"
     }
     else {
         mYear = mCalendar.get(Calendar.YEAR)

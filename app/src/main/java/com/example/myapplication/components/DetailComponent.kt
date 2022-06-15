@@ -4,7 +4,6 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
-import androidx.compose.material.SnackbarDefaults.backgroundColor
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -20,60 +19,64 @@ import com.example.myapplication.ui.theme.Rose2
 fun CardButton(navController: NavHostController, string: String,
                 cardWidth: Int, cardHeight: Int, onClick: () -> Unit){
     var showAlertDialog by remember { mutableStateOf(false) }
-    val AlertString: String
+    val alertString: String
     val uu: () -> Unit
-    if(string == "Complete"){
-        uu = { showAlertDialog = true }
-        AlertString = "Please make sure you have complete this task."
-    }
-    else if(string == "Delete"){
-        uu = { showAlertDialog = true }
-        AlertString = "Please make sure you know the delete action. \n" +
-                "Your task will be delete forever."
-    }
-    else {
-        uu = onClick
-        AlertString = ""
+    when (string) {
+        "Complete" -> {
+            uu = { showAlertDialog = true }
+            alertString = "Please make sure you have complete this task."
+        }
+        "Delete" -> {
+            uu = { showAlertDialog = true }
+            alertString = "Please make sure you know the delete action. \n" +
+                    "Your task will be delete forever."
+        }
+        else -> {
+            uu = onClick
+            alertString = ""
+        }
     }
     if(showAlertDialog){
         AlertDialog(
             onDismissRequest = { showAlertDialog = false },
             title = { Text("Confirm", fontSize = 25.sp)},
-            text = {Text(text = AlertString, fontSize = 23.sp)
+            text = {Text(text = alertString, fontSize = 23.sp)
             },
             confirmButton = {
-                if(string == "Complete"){
-                    Row(Modifier.fillMaxWidth().padding(12.dp),
-                        horizontalArrangement = Arrangement.SpaceAround,
-                        verticalAlignment = Alignment.CenterVertically){
-                        Button(onClick = onClick,
-                            colors = ButtonDefaults.buttonColors(backgroundColor = Rose2)) {
-                            Text(text = "I've finished.", fontSize = 20.sp)
-                        }
-                        Button(onClick = {showAlertDialog = false},
-                            colors = ButtonDefaults.buttonColors(backgroundColor = Rose2)) {
-                            Text(text = "Not yet finished.", fontSize = 20.sp)
-                        }
-                    }
-                }
-                else if(string == "Delete"){
-                    Row(Modifier.fillMaxWidth().padding(12.dp),
-                        horizontalArrangement = Arrangement.SpaceAround,
-                        verticalAlignment = Alignment.CenterVertically){
-                        Button(onClick = onClick,
-                            colors = ButtonDefaults.buttonColors(backgroundColor = Rose2)) {
-                            Text(text = "I want to delete.", fontSize = 20.sp)
-                        }
-                        Button(onClick = {showAlertDialog = false},
-                            colors = ButtonDefaults.buttonColors(backgroundColor = Rose2)) {
-                            Text(text = "I will save it.", fontSize = 20.sp)
+                when (string) {
+                    "Complete" -> {
+                        Row(Modifier.fillMaxWidth().padding(12.dp),
+                            horizontalArrangement = Arrangement.SpaceAround,
+                            verticalAlignment = Alignment.CenterVertically){
+                            Button(onClick = onClick,
+                                colors = ButtonDefaults.buttonColors(backgroundColor = Rose2)) {
+                                Text(text = "I've finished.", fontSize = 20.sp)
+                            }
+                            Button(onClick = {showAlertDialog = false},
+                                colors = ButtonDefaults.buttonColors(backgroundColor = Rose2)) {
+                                Text(text = "Not yet finished.", fontSize = 20.sp)
+                            }
                         }
                     }
-                }
-                else {
-                    Button(onClick = {showAlertDialog = false},
-                        colors = ButtonDefaults.buttonColors(backgroundColor = Rose2)) {
-                        Text(text = "OK", fontSize = 20.sp)
+                    "Delete" -> {
+                        Row(Modifier.fillMaxWidth().padding(12.dp),
+                            horizontalArrangement = Arrangement.SpaceAround,
+                            verticalAlignment = Alignment.CenterVertically){
+                            Button(onClick = onClick,
+                                colors = ButtonDefaults.buttonColors(backgroundColor = Rose2)) {
+                                Text(text = "I want to delete.", fontSize = 20.sp)
+                            }
+                            Button(onClick = {showAlertDialog = false},
+                                colors = ButtonDefaults.buttonColors(backgroundColor = Rose2)) {
+                                Text(text = "I will save it.", fontSize = 20.sp)
+                            }
+                        }
+                    }
+                    else -> {
+                        Button(onClick = {showAlertDialog = false},
+                            colors = ButtonDefaults.buttonColors(backgroundColor = Rose2)) {
+                            Text(text = "OK", fontSize = 20.sp)
+                        }
                     }
                 }
             },
