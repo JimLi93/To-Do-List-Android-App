@@ -96,9 +96,9 @@ fun ReactButton() {
             .fillMaxWidth()
             .fillMaxHeight(), horizontalArrangement = Arrangement.SpaceAround
     ) {
-        //FAB(Icons.Default.CleaningServices, Rose0, 80, 16, { /*TODO*/ }, "Brush")
-        //FAB(Icons.Default.Shower, Rose0, 80, 16, { /*TODO*/ }, "Shower")
-        //FAB(Icons.Default.EmojiFoodBeverage, Rose0, 80, 16, { /*TODO*/ }, "Feed")
+        FAB(Icons.Default.CleaningServices, Rose0, 80, 16, { /*TODO*/ }, "Brush")
+        FAB(Icons.Default.Shower, Rose0, 80, 16, { /*TODO*/ }, "Shower")
+        FAB(Icons.Default.EmojiFoodBeverage, Rose0, 80, 16, { /*TODO*/ }, "Feed")
     }
 
 }
