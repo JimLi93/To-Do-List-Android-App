@@ -5,9 +5,11 @@ import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Edit
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.LiveData
 import androidx.navigation.NavHostController
 import com.example.myapplication.components.CardButton
 import com.example.myapplication.components.TopHeader
@@ -18,9 +20,10 @@ import com.example.myapplication.data.Task
 @Composable
 fun TaskDetail(
     navController: NavHostController,
-    data: Task,
+    task: LiveData<Task>,
     selectedTaskIndex: Int
 ) {
+    val data = task.observeAsState()
     Scaffold(
         topBar = { TopHeader(
             string = "DETAILS",
@@ -36,10 +39,10 @@ fun TaskDetail(
             .fillMaxSize()
             .padding(innerPadding),
                 horizontalAlignment = Alignment.CenterHorizontally){
-            val taskName = data.name
-            val deadline = "Deadline: "+addZero(data.year)+"/"+addZero(data.month)+"/"+
-                    addZero(data.date)+"/"+addZero(data.hour)+"/"+addZero(data.minute)
-            val details = "Details:\n" +data.details
+            val taskName = data.value?.name ?: "Loading..."
+            val deadline = "Deadline: "+addZero(data.value?.year ?: 1969)+"/"+addZero(data.value?.month ?: 12)+"/"+
+                    addZero(data.value?.date ?: 31)+"/"+addZero(data.value?.hour ?: 23)+"/"+addZero(data.value?.minute ?: 59)
+            val details = "Details:\n" +(data.value?.details ?: "")
 
             Spacer(Modifier.height(DefaultPadding))
             TaskBarWithEdit(navController, taskName, selectedTaskIndex)

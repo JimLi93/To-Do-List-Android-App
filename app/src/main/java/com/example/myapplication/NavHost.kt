@@ -56,14 +56,10 @@ fun AppNavHost(
             val selectedTaskIndex = backStackEntry.arguments!!.getInt("taskindex")
             TaskDetail(
                 navController = navController,
-                // THIS DOES NOT WORK
-                //  data = viewModel.retrieveAllTasks().value!![0],
-                // THIS WORKS
-                data = viewModel.allTasks.value!![0],
+                task = viewModel.retrieveTask(selectedTaskIndex),
                 selectedTaskIndex = selectedTaskIndex
             )
         }
-        //composable("taskpage") { TaskPage(navController = navController)}
         composable(
             route = "readstory/{chapterindex}",
             arguments = listOf(
