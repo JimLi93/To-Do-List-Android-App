@@ -16,13 +16,15 @@ import com.example.myapplication.components.TopHeader
 import com.example.myapplication.ui.theme.Rose1
 import com.example.myapplication.components.addZero
 import com.example.myapplication.data.Task
+import com.example.myapplication.ui.TaskViewModel
 
 @Composable
 fun TaskDetail(
     navController: NavHostController,
-    task: LiveData<Task>,
+    viewModel: TaskViewModel,
     selectedTaskIndex: Int
 ) {
+    val task = viewModel.retrieveTask(selectedTaskIndex)
     val data = task.observeAsState()
     Scaffold(
         topBar = { TopHeader(
@@ -53,7 +55,7 @@ fun TaskDetail(
                 .padding(start = 60.dp, end = 60.dp, top = 30.dp)
                 , text = details, style = MaterialTheme.typography.body1)
             Spacer(Modifier.height(DefaultPadding*5))
-            CompleteDelete(navController)
+            CompleteDelete(navController, viewModel, task)
 
         }
 
@@ -92,7 +94,7 @@ private fun TaskBarWithEdit(
 }
 
 @Composable
-fun CompleteDelete(navController: NavHostController){
+fun CompleteDelete(navController: NavHostController, viewModel: TaskViewModel, task: LiveData<Task>){
     /* TODO: hold the task detail after pressing delete */
     Row(modifier = Modifier.fillMaxWidth(),
         verticalAlignment = Alignment.CenterVertically,
@@ -103,6 +105,7 @@ fun CompleteDelete(navController: NavHostController){
         }
 
         CardButton(navController, string = "Delete", cardWidth = 120, cardHeight = 40) {
+            viewModel.deleteTask(task.value!!)
             navController.navigate(BottomBarScreen.TaskList.route)
         }
 

@@ -10,7 +10,18 @@ class TaskViewModel(private val taskDao: TaskDao) : ViewModel() {
 
     val allTasks: LiveData<List<Task>> = taskDao.getListOfTasks().asLiveData()
 
-    fun retrieveTask(id: Int): LiveData<Task> = taskDao.getTask(id).asLiveData()
+    lateinit var currentTaskCache: LiveData<Task>
+    private var currentTaskId: Int? = null
+    fun retrieveTask(id: Int): LiveData<Task> {
+        if (currentTaskId == null || id != currentTaskId) {
+            currentTaskCache = taskDao.getTask(id).asLiveData()
+            currentTaskId = id
+        }
+        return currentTaskCache
+    }
+    fun retrieveBufferedTaskForEdit(): Task {
+        return currentTaskCache.value!!
+    }
 
     fun addTask(
         name: String,

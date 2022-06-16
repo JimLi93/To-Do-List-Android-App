@@ -53,11 +53,10 @@ fun AppNavHost(
                 }
             )
         ) { backStackEntry ->
-            val selectedTaskIndex = backStackEntry.arguments!!.getInt("taskindex")
             TaskDetail(
                 navController = navController,
-                task = viewModel.retrieveTask(selectedTaskIndex),
-                selectedTaskIndex = selectedTaskIndex
+                viewModel = viewModel,
+                selectedTaskIndex = backStackEntry.arguments!!.getInt("taskindex")
             )
         }
         composable(
@@ -97,6 +96,7 @@ fun AppNavHost(
         ) { backStackEntry ->
             EditTask(
                 navController = navController,
+                viewModel = viewModel,
                 selectedTaskIndex = backStackEntry.arguments!!.getInt("taskindex")
             )
         }
