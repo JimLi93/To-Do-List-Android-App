@@ -21,7 +21,13 @@ import com.example.myapplication.ui.theme.Rose2
 import java.util.*
 
 @Composable
-fun SelectDate(edit: Boolean, year: Int, month: Int, date: Int){
+fun SelectDate(
+    edit: Boolean,
+    year: Int,
+    month: Int,
+    date: Int,
+    onDateChange: (Int, Int, Int) -> Unit
+) {
 
     // Fetching the Local Context
     val mContext = LocalContext.current
@@ -61,8 +67,9 @@ fun SelectDate(edit: Boolean, year: Int, month: Int, date: Int){
     // initial values as current values (present year, month and day)
     val mDatePickerDialog = DatePickerDialog(
         mContext,
-        { _, mYear, mMonth, mDay ->
-            mDate.value = "$mYear/${mMonth+1}/${mDay}"
+        { _, newYear, newMonth, newDay ->
+            mDate.value = "$newYear/${newMonth+1}/${newDay}"
+            onDateChange(newYear, newMonth, newDay)
         }, mYear, mMonth, mDay
     )
 
@@ -87,7 +94,7 @@ fun SelectDate(edit: Boolean, year: Int, month: Int, date: Int){
 }
 
 @Composable
-fun SelectTime(edit: Boolean, hour: Int, minute: Int){
+fun SelectTime(edit: Boolean, hour: Int, minute: Int, onTimeChange: (Int, Int) -> Unit){
 
     // Fetching the Local Context
     val mContext = LocalContext.current
@@ -120,8 +127,9 @@ fun SelectTime(edit: Boolean, hour: Int, minute: Int){
     // initial values as current values (present year, month and day)
     val mTimePickerDialog = TimePickerDialog(
         mContext,
-        { _, mHour, mMinute ->
-            mTime.value = "${addZero(mHour)} : ${addZero(mMinute)}"
+        { _, newHour, newMinute ->
+            mTime.value = "${addZero(newHour)} : ${addZero(newMinute)}"
+            onTimeChange(newHour, newMinute)
         }, mHour, mMinute, false
     )
 
@@ -147,17 +155,26 @@ fun SelectTime(edit: Boolean, hour: Int, minute: Int){
 }
 
 @Composable
-fun SelectItems(edit: Boolean, year: Int, month: Int, date: Int, hour: Int, minute: Int){
+fun SelectItems(
+    edit: Boolean,
+    year: Int,
+    month: Int,
+    date: Int,
+    hour: Int,
+    minute: Int,
+    onDateChange: (Int, Int, Int) -> Unit,
+    onTimeChange: (Int, Int) -> Unit
+) {
     Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceEvenly){
         Column (horizontalAlignment = Alignment.CenterHorizontally){
             Text("Due Date", modifier = Modifier.padding(12.dp),
                 style = MaterialTheme.typography.body1)
-            SelectDate(edit, year, month, date)
+            SelectDate(edit, year, month, date, onDateChange)
         }
         Column(horizontalAlignment = Alignment.CenterHorizontally){
             Text("Due Time", modifier = Modifier.padding(12.dp),
                 style = MaterialTheme.typography.body1)
-            SelectTime(edit, hour, minute)
+            SelectTime(edit, hour, minute, onTimeChange)
         }
     }
 }

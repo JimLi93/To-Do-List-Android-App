@@ -18,7 +18,6 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import com.example.myapplication.components.CardButton
 import com.example.myapplication.components.SelectItems
-import com.example.myapplication.components.TopHeader
 import com.example.myapplication.ui.TaskViewModel
 import com.example.myapplication.ui.theme.Rose2
 
@@ -53,18 +52,29 @@ fun AddTask(navController: NavHostController, viewModel: TaskViewModel) {
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             var taskName by rememberSaveable { mutableStateOf("") }
-            // AddString("Task name", "")
-            StatelessAddString(
+            AddString(
                 string = taskName,
                 onStringChange = { taskName = it },
                 title = "Task name"
             )
-            //Spacer(Modifier.height(DefaultPadding))
-            SelectItems(false, 0,0,0,0,0)
+            var mYear by rememberSaveable { mutableStateOf(0) }
+            var mMonth by rememberSaveable { mutableStateOf(0) }
+            var mDate by rememberSaveable { mutableStateOf(0) }
+            var mHour by rememberSaveable { mutableStateOf(0) }
+            var mMinute by rememberSaveable { mutableStateOf(0) }
+            SelectItems(false, 0,0,0,0,0,
+                { newYear, newMonth, newDate ->
+                    mYear = newYear
+                    mMonth = newMonth + 1
+                    mDate = newDate
+                }, { newHour, newMinute ->
+                    mHour = newHour
+                    mMinute = newMinute
+                }
+            )
             Spacer(Modifier.height(DefaultPadding))
             var taskDetail by rememberSaveable { mutableStateOf("") }
-            // AddString("Details", "")
-            StatelessAddString(
+            AddString(
                 string = taskDetail,
                 onStringChange = { taskDetail = it },
                 title = "Details"
@@ -76,8 +86,7 @@ fun AddTask(navController: NavHostController, viewModel: TaskViewModel) {
                 , cardWidth = 100
                 , cardHeight = 40
                 , onClick = {
-                    // TODO: retrieve date and time
-                    viewModel.addTask(taskName, 2022, 6, 14, 15, 30, taskDetail)
+                    viewModel.addTask(taskName, mYear, mMonth, mDate, mHour, mMinute, taskDetail)
                     navController.navigate(BottomBarScreen.TaskList.route)
                 }
             )
@@ -87,13 +96,7 @@ fun AddTask(navController: NavHostController, viewModel: TaskViewModel) {
 }
 
 @Composable
-fun AddString(title: String, dataString: String) {
-    var string by rememberSaveable { mutableStateOf(dataString) }
-    StatelessAddString(string = string, onStringChange = { string = it }, title)
-}
-
-@Composable
-fun StatelessAddString(string: String, onStringChange: (String) -> Unit, title: String) {
+fun AddString(string: String, onStringChange: (String) -> Unit, title: String) {
     Column(
         modifier = Modifier.padding(12.dp), horizontalAlignment = Alignment.CenterHorizontally
     ) {

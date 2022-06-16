@@ -7,11 +7,8 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
-import androidx.navigation.compose.rememberNavController
-import com.example.myapplication.ui.theme.MyApplicationTheme
 import com.example.myapplication.ui.theme.Rose1
 
 import androidx.compose.runtime.Composable
@@ -23,7 +20,6 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import com.example.myapplication.components.CardButton
 import com.example.myapplication.components.SelectItems
-import com.example.myapplication.components.TopHeader
 import com.example.myapplication.ui.TaskViewModel
 import com.example.myapplication.ui.theme.Rose2
 
@@ -63,17 +59,29 @@ fun EditTask(
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             var taskName by rememberSaveable { mutableStateOf(data.name) }
-            // AddString("Task name", data.name)
-            StatelessAddString(
+            AddString(
                 string = taskName,
                 onStringChange = { taskName = it },
                 title = "Task name"
             )
-            SelectItems(true, data.year, data.month, data.date, data.hour, data.minute)
+            var mYear by rememberSaveable { mutableStateOf(data.year) }
+            var mMonth by rememberSaveable { mutableStateOf(data.month) }
+            var mDate by rememberSaveable { mutableStateOf(data.date) }
+            var mHour by rememberSaveable { mutableStateOf(data.hour) }
+            var mMinute by rememberSaveable { mutableStateOf(data.minute) }
+            SelectItems(true, mYear, mMonth, mDate, mHour, mMinute,
+                { newYear, newMonth, newDate ->
+                    mYear = newYear
+                    mMonth = newMonth + 1
+                    mDate = newDate
+                }, { newHour, newMinute ->
+                    mHour = newHour
+                    mMinute = newMinute
+                }
+            )
             Spacer(Modifier.height(DefaultPadding))
             var taskDetail by rememberSaveable { mutableStateOf(data.details) }
-            // AddString("Details", data.details)
-            StatelessAddString(
+            AddString(
                 string = taskDetail,
                 onStringChange = { taskDetail = it },
                 title = "Details"
@@ -85,7 +93,7 @@ fun EditTask(
                 , cardWidth = 100
                 , cardHeight = 40
                 , onClick = {
-                    viewModel.updateTask(taskName, 2022, 6, 14, 15, 30,
+                    viewModel.updateTask(taskName, mYear, mMonth, mDate, mHour, mMinute,
                         taskDetail, selectedTaskIndex)
                     navController.navigate(BottomBarScreen.TaskList.route)
                 }
