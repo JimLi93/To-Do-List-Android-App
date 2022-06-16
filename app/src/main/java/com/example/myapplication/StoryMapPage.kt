@@ -41,13 +41,21 @@ fun StoryMapPage(navController: NavHostController, chapterIndex: Int = 1) {
     Scaffold(
         scaffoldState = scaffoldState,
         topBar = {
-            StoryTopHeader(
-                string = "STORY MAP",
-                onClick = {
-                    scope.launch {
-                        scaffoldState.drawerState.open()
+            TopAppBar(
+                title = { Text("STORY MAP") },
+                modifier = Modifier,
+                navigationIcon = {
+                    IconButton(
+                        onClick = {
+                            scope.launch {
+                                scaffoldState.drawerState.open()
+                            }
+                        },
+                    ) {
+                        Icon(Icons.Filled.List, contentDescription = null)
                     }
-                }
+                },
+                backgroundColor = Rose2
             )
         },
         drawerGesturesEnabled = scaffoldState.drawerState.isOpen,

@@ -6,10 +6,13 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.material.*
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.LiveData
+import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.example.myapplication.components.NavBar
@@ -24,13 +27,24 @@ import com.example.myapplication.ui.theme.*
 fun HistoryPage(navController: NavHostController, historyList: LiveData<List<HistoryTask>>) {
     val historyListState by historyList.observeAsState()
     Scaffold(
-        topBar = { TopHeader(
-            string = "HISTORY",
-            trophy = false,
-            backArrow = true,
-            index = false,
-            navController = navController,
-            backArrowDestination = BottomBarScreen.TaskList.route)
+        topBar = {
+            TopAppBar(
+                title = { Text("HISTORY") },
+                modifier = Modifier,
+                navigationIcon = {
+                    IconButton(
+                        onClick = {
+                            navController.navigate(route = "tasklist") {
+                                popUpTo(navController.graph.findStartDestination().id)
+                                launchSingleTop = true
+                            }
+                        },
+                    ) {
+                        Icon(Icons.Filled.ArrowBack, contentDescription = null)
+                    }
+                },
+                backgroundColor = Rose2
+            )
         },
         bottomBar = { NavBar(navController) },
         backgroundColor = Rose1

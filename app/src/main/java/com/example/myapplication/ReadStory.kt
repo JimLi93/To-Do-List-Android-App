@@ -4,9 +4,9 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Scaffold
-import androidx.compose.material.Text
+import androidx.compose.material.*
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -14,12 +14,14 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.example.myapplication.components.TopHeader
 import com.example.myapplication.data.SolidUserData
 import com.example.myapplication.ui.theme.MyApplicationTheme
 import com.example.myapplication.ui.theme.Rose1
+import com.example.myapplication.ui.theme.Rose2
 
 @Composable
 fun ReadStory(
@@ -31,11 +33,22 @@ fun ReadStory(
     val story = data.detail
     Scaffold(
         topBar = {
-            TopHeader(
-                string = headerString,
-                backArrow = true,
-                navController = navController,
-                backArrowDestination = BottomBarScreen.StoryMap.route
+            TopAppBar(
+                title = { Text(text = headerString) },
+                modifier = Modifier,
+                navigationIcon = {
+                    IconButton(
+                        onClick = {
+                            navController.navigate(route = "storymappage/${data.chapter}") {
+                                popUpTo(navController.graph.findStartDestination().id)
+                                launchSingleTop = true
+                            }
+                        },
+                    ) {
+                        Icon(Icons.Filled.ArrowBack, contentDescription = null)
+                    }
+                },
+                backgroundColor = Rose2
             )
         },
         backgroundColor = Rose1

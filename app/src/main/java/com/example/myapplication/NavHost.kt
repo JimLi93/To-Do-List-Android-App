@@ -22,6 +22,7 @@ fun AppNavHost(
     ) {
         composable("addtask") { AddTask(navController = navController, viewModel = viewModel) }
         composable("greeting") { Greeting(navController = navController) }
+        composable("tasklist") { TaskPage(navController = navController, taskList = viewModel.allTasks) }
         composable(BottomBarScreen.Pet.route) { PetPage(navController = navController) }
         composable(BottomBarScreen.TaskList.route) {
             TaskPage(navController = navController, taskList = viewModel.allTasks)
@@ -76,7 +77,19 @@ fun AppNavHost(
                 chapterIndex = backStackEntry.arguments!!.getInt("chapterindex")
             )
         }
-        //composable("storymappage") { StoryMapPage(navController = navController)}
+        composable(
+            route = "storymappage/{chapterindex}",
+            arguments = listOf(
+                navArgument("chapterindex") {
+                    type = NavType.IntType
+                }
+            )
+        ) { backStackEntry ->
+            StoryMapPage(
+                navController = navController,
+                chapterIndex = backStackEntry.arguments!!.getInt("chapterindex")
+            )
+        }
         composable(
             route = "taskdetailhistory/{taskindex}",
             arguments = listOf(

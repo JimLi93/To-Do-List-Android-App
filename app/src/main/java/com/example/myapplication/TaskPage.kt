@@ -7,11 +7,13 @@ import androidx.compose.runtime.Composable
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.HistoryEdu
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.LiveData
+import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
 import com.example.myapplication.components.NavBar
 import com.example.myapplication.components.TaskBody
@@ -25,14 +27,25 @@ import com.example.myapplication.ui.theme.*
 fun TaskPage(navController: NavHostController, taskList: LiveData<List<Task>>) {
     val taskListState by taskList.observeAsState()
     Scaffold(
-        topBar = { TopHeader(
-                    string = "TASK",
-                    trophy = true,
-                    backArrow = false,
-                    index = false,
-                    navController = navController,
-                    trophyDestination = "historypage")
-                 },
+        topBar = {
+            TopAppBar(
+                title = { Text("TASKPAGE") },
+                modifier = Modifier,
+                actions = {
+                    IconButton(
+                        onClick = {
+                            navController.navigate(route = "historypage") {
+                                popUpTo(navController.graph.findStartDestination().id)
+                                launchSingleTop = true
+                            }
+                        },
+                    ) {
+                        Icon(Icons.Filled.HistoryEdu, contentDescription = null)
+                    }
+                },
+                backgroundColor = Rose2
+            )
+        },
         bottomBar = { NavBar(navController) },
         backgroundColor = Rose1,
         floatingActionButton = { AddTaskButton(navController) }

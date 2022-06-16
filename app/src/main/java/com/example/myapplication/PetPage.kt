@@ -31,9 +31,10 @@ import com.example.myapplication.ui.theme.*
 fun PetPage(navController: NavHostController) {
     Scaffold(
         topBar = {
-            TopHeader(
-                string = "PET",
-                navController = navController
+            TopAppBar(
+                title = { Text("PET") },
+                modifier = Modifier,
+                backgroundColor = Rose2
             )
         },
         bottomBar = { NavBar(navController) },

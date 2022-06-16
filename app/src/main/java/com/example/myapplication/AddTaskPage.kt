@@ -3,6 +3,8 @@ package com.example.myapplication
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
@@ -13,22 +15,33 @@ import com.example.myapplication.ui.theme.Rose1
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
+import androidx.navigation.NavGraph.Companion.findStartDestination
 import com.example.myapplication.components.CardButton
 import com.example.myapplication.components.SelectItems
 import com.example.myapplication.components.TopHeader
 import com.example.myapplication.ui.TaskViewModel
+import com.example.myapplication.ui.theme.Rose2
 
 @Composable
 fun AddTask(navController: NavHostController, viewModel: TaskViewModel) {
     Scaffold(
         topBar = {
-            TopHeader(
-                string = "ADD TASK",
-                trophy = false,
-                backArrow = true,
-                index = false,
-                navController = navController,
-                backArrowDestination = BottomBarScreen.TaskList.route,
+            TopAppBar(
+                title = { Text("ADD TASK") },
+                modifier = Modifier,
+                navigationIcon = {
+                    IconButton(
+                        onClick = {
+                            navController.navigate(route = "tasklist") {
+                                popUpTo(navController.graph.findStartDestination().id)
+                                launchSingleTop = true
+                            }
+                        },
+                    ) {
+                        Icon(Icons.Filled.ArrowBack, contentDescription = null)
+                    }
+                },
+                backgroundColor = Rose2
             )
         },
         backgroundColor = Rose1

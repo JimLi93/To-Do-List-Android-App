@@ -3,6 +3,8 @@ package com.example.myapplication
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
@@ -17,10 +19,13 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.text.style.TextAlign
+import androidx.navigation.NavGraph.Companion.findStartDestination
 import com.example.myapplication.components.CardButton
 import com.example.myapplication.components.SelectItems
 import com.example.myapplication.components.TopHeader
 import com.example.myapplication.ui.TaskViewModel
+import com.example.myapplication.ui.theme.Rose2
 
 @Composable
 fun EditTask(
@@ -31,13 +36,22 @@ fun EditTask(
     val data = viewModel.retrieveBufferedTaskForEdit()
     Scaffold(
         topBar = {
-            TopHeader(
-                string = "EDIT TASK",
-                trophy = false,
-                backArrow = true,
-                index = false,
-                navController = navController,
-                backArrowDestination = BottomBarScreen.TaskList.route,
+            TopAppBar(
+                title = { Text(text = "EDIT TASK", textAlign = TextAlign.End) },
+                modifier = Modifier,
+                navigationIcon = {
+                    IconButton(
+                        onClick = {
+                            navController.navigate(route = "tasklist") {
+                                popUpTo(navController.graph.findStartDestination().id)
+                                launchSingleTop = true
+                            }
+                        },
+                    ) {
+                        Icon(Icons.Filled.ArrowBack, contentDescription = null)
+                    }
+                },
+                backgroundColor = Rose2
             )
         },
         backgroundColor = Rose1

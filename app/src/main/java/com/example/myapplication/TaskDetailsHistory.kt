@@ -3,6 +3,8 @@ package com.example.myapplication
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
@@ -10,6 +12,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.example.myapplication.components.CardButton
@@ -17,6 +20,7 @@ import com.example.myapplication.components.TopHeader
 import com.example.myapplication.components.addZero
 import com.example.myapplication.ui.TaskViewModel
 import com.example.myapplication.ui.theme.Rose1
+import com.example.myapplication.ui.theme.Rose2
 
 @Composable
 fun TaskDetailHistory(
@@ -27,13 +31,24 @@ fun TaskDetailHistory(
     val task = viewModel.retrieveHistory(selectedTaskIndex)
     val data = task.observeAsState()
     Scaffold(
-        topBar = { TopHeader(
-            string = "DETAILS",
-            trophy = false,
-            backArrow = true,
-            index = false,
-            navController = navController,
-            backArrowDestination = "historypage")
+        topBar = {
+            TopAppBar(
+                title = { Text("DETAILS") },
+                modifier = Modifier,
+                navigationIcon = {
+                    IconButton(
+                        onClick = {
+                            navController.navigate(route = "historypage") {
+                                popUpTo(navController.graph.findStartDestination().id)
+                                launchSingleTop = true
+                            }
+                        },
+                    ) {
+                        Icon(Icons.Filled.ArrowBack, contentDescription = null)
+                    }
+                },
+                backgroundColor = Rose2
+            )
         },
         backgroundColor = Rose1
     ) {
