@@ -1,14 +1,18 @@
 package com.example.myapplication
 
 
+import android.content.Context
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.*
+import androidx.compose.material.icons.filled.CleaningServices
+import androidx.compose.material.icons.filled.EmojiFoodBeverage
+import androidx.compose.material.icons.filled.FolderShared
+import androidx.compose.material.icons.filled.Shower
 import androidx.compose.runtime.*
-import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -18,17 +22,21 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.LiveData
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.example.myapplication.components.FAB
 import com.example.myapplication.components.NavBar
-import com.example.myapplication.components.TopHeader
+import com.example.myapplication.data.PetDataStore
 import com.example.myapplication.data.SolidUserData
-import com.example.myapplication.ui.theme.*
+import com.example.myapplication.ui.theme.Rose0
+import com.example.myapplication.ui.theme.Rose1
+import com.example.myapplication.ui.theme.Rose2
+import kotlinx.coroutines.launch
 
 
 @Composable
-fun PetPage(navController: NavHostController) {
+fun PetPage(context: Context, navController: NavHostController, petPreference: PetDataStore, petIndex: LiveData<Int>) {
     Scaffold(
         topBar = {
             TopAppBar(
@@ -52,7 +60,7 @@ fun PetPage(navController: NavHostController) {
                 alpha = 0.7f
             )
             ReactButton()
-            var count by rememberSaveable { mutableStateOf(0) }
+            val count = petIndex.observeAsState()
             Row(
                 modifier = Modifier
                     .fillMaxSize()
@@ -61,7 +69,7 @@ fun PetPage(navController: NavHostController) {
                 horizontalArrangement = Arrangement.Center
             ) {
                 Column {
-                    CatImage(count)
+                    CatImage(count.value!!)
                     Spacer(Modifier.height(50.dp))
                 }
 
@@ -73,10 +81,19 @@ fun PetPage(navController: NavHostController) {
                 verticalAlignment = Alignment.Bottom,
                 horizontalArrangement = Arrangement.Center
             ) {
+                val scope = rememberCoroutineScope()
                 SwitchPetBar(
-                    count = count,
-                    onIncrementAdd = { count++ },
-                    onIncrementMinus = { count-- }
+                    count = count.value!!,
+                    onIncrementAdd = {
+                        scope.launch {
+                            petPreference.savePetToPreferencesStore(count.value!! + 1, context)
+                        }
+                    },
+                    onIncrementMinus = {
+                        scope.launch {
+                            petPreference.savePetToPreferencesStore(count.value!! - 1, context)
+                        }
+                    }
                 )
 
             }
@@ -119,7 +136,7 @@ fun SwitchPetBar(
     val name = SolidUserData.pets[count].name
     val details = SolidUserData.pets[count].detail
     val image = SolidUserData.pets[count].image
-    val amount = SolidUserData.pets.map { pet -> 1 }.sum()
+    val amount = SolidUserData.pets.map { _ -> 1 }.sum()
     Box {
         Row(
             modifier = Modifier
@@ -146,10 +163,7 @@ fun SwitchPetBar(
         ) {
 
             if (count == 0) {
-                IconButton(onClick = {}) {
-                    //Icon(imageVector = Icons.Filled.KeyboardArrowRight, null
-                // , modifier = Modifier.size(arrowSize))
-                }
+                IconButton(onClick = {}) {}
             } else {
                 IconButton(onClick = onIncrementMinus) {
                     Icon(painter = painterResource(R.drawable.leftarrow), null
@@ -157,10 +171,7 @@ fun SwitchPetBar(
                 }
             }
             if (count == amount - 1) {
-                IconButton(onClick = {}) {
-                    //Icon(imageVector = Icons.Filled.KeyboardArrowLeft, null
-                // , modifier = Modifier.size(arrowSize))
-                }
+                IconButton(onClick = {}) {}
             } else {
                 IconButton(onClick = onIncrementAdd) {
                     Icon(painter = painterResource(R.drawable.rightarrow), null
@@ -176,10 +187,7 @@ fun SwitchPetBar(
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically
         ) {
-            IconButton(onClick = {}) {
-                //Icon(imageVector = Icons.Filled.FolderShared, "Pet details icon"
-            // , modifier = Modifier.size(folderSize))
-            }
+            IconButton(onClick = {}) {}
             IconButton(onClick = { showAlertDialog = true }) {
                 Icon(imageVector = Icons.Filled.FolderShared, "Pet details icon"
                     , modifier = Modifier.size(folderSize))
@@ -229,7 +237,7 @@ fun SwitchPetBar(
     }
 }
 
-
+/*
 @Preview(showBackground = true)
 @Composable
 fun PetPagePreview() {
@@ -238,7 +246,7 @@ fun PetPagePreview() {
         PetPage(navController)
     }
 }
-
+ */
 private val reactButtonDp = 16.dp
 private val spacerInPetPage: List<Int> = listOf(300, 250)
 private val SwitchPetSpacer = 550.dp

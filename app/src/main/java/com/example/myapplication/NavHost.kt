@@ -1,29 +1,44 @@
 package com.example.myapplication
 
+import android.content.Context
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.lifecycle.asLiveData
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
+import com.example.myapplication.data.PetDataStore
 import com.example.myapplication.ui.TaskViewModel
 
 @Composable
 fun AppNavHost(
+    context: Context,
     navController: NavHostController,
     viewModel: TaskViewModel,
+    petPreference: PetDataStore,
     modifier: Modifier = Modifier
 ) {
+    val petIndex = petPreference.preferenceFlow.asLiveData()
     NavHost(
         navController = navController,
         startDestination = "greeting",
         modifier = modifier
     ) {
         composable("addtask") { AddTask(navController = navController, viewModel = viewModel) }
-        composable("greeting") { Greeting(navController = navController) }
-        composable("tasklist") { TaskPage(navController = navController, taskList = viewModel.allTasks) }
-        composable(BottomBarScreen.Pet.route) { PetPage(navController = navController) }
+        composable("greeting") { Greeting(navController = navController, petIndex = petIndex) }
+        composable("tasklist") {
+            TaskPage(navController = navController, taskList = viewModel.allTasks)
+        }
+        composable(BottomBarScreen.Pet.route) {
+            PetPage(
+                context = context,
+                navController = navController,
+                petPreference = petPreference,
+                petIndex = petIndex
+            )
+        }
         composable(BottomBarScreen.TaskList.route) {
             TaskPage(navController = navController, taskList = viewModel.allTasks)
         }
