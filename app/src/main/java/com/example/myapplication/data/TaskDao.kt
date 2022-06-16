@@ -12,12 +12,24 @@ interface TaskDao {
     @Query("SELECT * from task_table WHERE id = :id")
     fun getTask(id: Int): Flow<Task>
 
-    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    @Insert(entity = Task::class)
     suspend fun insert(task: Task)
 
-    @Update(onConflict = OnConflictStrategy.IGNORE)
+    @Update(entity = Task::class)
     suspend fun update(task: Task)
 
-    @Delete
+    @Delete(entity = Task::class)
     suspend fun delete(task: Task)
+
+    @Query("SELECT * from history_table")
+    fun getListOfHistory(): Flow<List<HistoryTask>>
+
+    @Query("SELECT * from history_table WHERE id = :id")
+    fun getHistoryTask(id: Int): Flow<HistoryTask>
+
+    @Insert(entity = HistoryTask::class)
+    suspend fun insertHistory(historyTask: HistoryTask)
+
+    @Delete(entity = HistoryTask::class)
+    suspend fun deleteHistory(historyTask: HistoryTask)
 }

@@ -1,6 +1,7 @@
 package com.example.myapplication.ui
 
 import androidx.lifecycle.*
+import com.example.myapplication.data.HistoryTask
 import com.example.myapplication.data.Task
 import com.example.myapplication.data.TaskDao
 import kotlinx.coroutines.Dispatchers
@@ -9,8 +10,9 @@ import kotlinx.coroutines.launch
 class TaskViewModel(private val taskDao: TaskDao) : ViewModel() {
 
     val allTasks: LiveData<List<Task>> = taskDao.getListOfTasks().asLiveData()
+    val allHistoryTasks: LiveData<List<HistoryTask>> = taskDao.getListOfHistory().asLiveData()
 
-    lateinit var currentTaskCache: LiveData<Task>
+    private lateinit var currentTaskCache: LiveData<Task>
     private var currentTaskId: Int? = null
     fun retrieveTask(id: Int): LiveData<Task> {
         if (currentTaskId == null || id != currentTaskId) {
@@ -22,6 +24,7 @@ class TaskViewModel(private val taskDao: TaskDao) : ViewModel() {
     fun retrieveBufferedTaskForEdit(): Task {
         return currentTaskCache.value!!
     }
+    fun retrieveHistory(id: Int) = taskDao.getHistoryTask(id).asLiveData()
 
     fun addTask(
         name: String,
@@ -55,6 +58,25 @@ class TaskViewModel(private val taskDao: TaskDao) : ViewModel() {
     fun deleteTask(task: Task) {
         viewModelScope.launch(Dispatchers.IO) {
             taskDao.delete(task)
+        }
+    }
+
+    fun completeTask(task: Task) {
+        viewModelScope.launch(Dispatchers.IO) {
+            taskDao.delete(task)
+        }
+        viewModelScope.launch(Dispatchers.IO) {
+            taskDao.insertHistory(
+                HistoryTask(
+                    task.name,task.year,task.month,task.date,task.hour,task.minute,task.details
+                )
+            )
+        }
+    }
+
+    fun deleteHistory(historyTask: HistoryTask) {
+        viewModelScope.launch(Dispatchers.IO) {
+            taskDao.deleteHistory(historyTask)
         }
     }
 }

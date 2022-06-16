@@ -6,19 +6,23 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.material.*
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
+import androidx.lifecycle.LiveData
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.example.myapplication.components.NavBar
 import com.example.myapplication.components.TaskBody
 import com.example.myapplication.components.TaskListBar
 import com.example.myapplication.components.TopHeader
-import com.example.myapplication.data.UserData
+import com.example.myapplication.data.HistoryTask
 import com.example.myapplication.ui.theme.*
 
 
 @Composable
-fun HistoryPage(navController: NavHostController) {
+fun HistoryPage(navController: NavHostController, historyList: LiveData<List<HistoryTask>>) {
+    val historyListState by historyList.observeAsState()
     Scaffold(
         topBar = { TopHeader(
             string = "HISTORY",
@@ -32,7 +36,7 @@ fun HistoryPage(navController: NavHostController) {
         backgroundColor = Rose1
     ) { innerPadding ->
         TaskBody(
-            data = UserData.historyTasks,
+            data = historyListState,
             modifier = Modifier.padding(innerPadding)
         ) { task ->
             TaskListBar(
@@ -52,7 +56,7 @@ fun HistoryPage(navController: NavHostController) {
 
 }
 
-
+/*
 @Preview
 @Composable
 fun HistoryPreview() {
@@ -61,4 +65,4 @@ fun HistoryPreview() {
         HistoryPage(navController)
     }
 }
-
+ */

@@ -17,6 +17,18 @@ data class Task(
     val id: Int = 0
 )
 
+@Entity(tableName = "history_table")
+data class HistoryTask(
+    val name: String,
+    val year: Int,
+    val month: Int,
+    val date: Int,
+    val hour:Int,
+    val minute: Int,
+    val details: String,
+    @PrimaryKey(autoGenerate = true)
+    val id: Int = 0
+)
 
 object UserData {
     val tasks: List<Task> = listOf(

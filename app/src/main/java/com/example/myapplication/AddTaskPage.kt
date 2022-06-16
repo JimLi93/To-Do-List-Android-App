@@ -57,7 +57,6 @@ fun AddTask(navController: NavHostController, viewModel: TaskViewModel) {
                 title = "Details"
             )
             Spacer(Modifier.height(DefaultPadding))
-            /* TODO: store the task before back to "addtask" */
             CardButton(
                 navController = navController
                 , string = "Add"

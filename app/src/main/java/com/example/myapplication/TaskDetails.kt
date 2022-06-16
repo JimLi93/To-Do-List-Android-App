@@ -17,7 +17,7 @@ import com.example.myapplication.ui.theme.Rose1
 import com.example.myapplication.components.addZero
 import com.example.myapplication.data.Task
 import com.example.myapplication.ui.TaskViewModel
-
+// TODO: detail pages should be draggable
 @Composable
 fun TaskDetail(
     navController: NavHostController,
@@ -99,8 +99,8 @@ fun CompleteDelete(navController: NavHostController, viewModel: TaskViewModel, t
     Row(modifier = Modifier.fillMaxWidth(),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.SpaceEvenly) {
-        /* TODO: store the task detail change after pressing complete */
         CardButton(navController, string = "Complete", cardWidth = 120, cardHeight = 40) {
+            viewModel.completeTask(task.value!!)
             navController.navigate(BottomBarScreen.TaskList.route)
         }
 
